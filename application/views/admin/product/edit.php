@@ -115,19 +115,10 @@
                                             <input type="file" name="prod_img" />
                                         </div>
                                         <div class="form-group">
-                                            <div class="radio-inline">
-                                                <label>
-                                                    <input type="radio" name="prod_status" id="optionsRadios1" value="1"  <?php if($product->in_stock == 1){ echo "checked"; } ?> />
-                                                    <?php echo $this->lang->line("In Stock");?>
-                                                </label>
-                                            </div>
-                                            <div class="radio-inline">
-                                                <label>
-                                                    <input type="radio" name="prod_status" id="optionsRadios2" value="0" <?php if($product->in_stock == 0){ echo "checked"; } ?> />
-                                                    <?php echo $this->lang->line("Out of stock");?>
-                                                </label>
-                                            </div>
-                                            <p class="help-block"><?php echo $this->lang->line("Product Status.");?></p>
+                                           <div class="form-group">
+                                            <label class=""><?php echo $this->lang->line("Stock");?> <span class="text-danger">*</span></label>
+                                            <input type="text" name="in_stock" class="form-control" value="<?php echo $product->in_stock; ?>" placeholder="00.00"/>
+                                        </div>
                                         </div>
                                     </div><!-- /.box-body -->
                                     <div class="box-body">

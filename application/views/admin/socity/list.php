@@ -62,15 +62,23 @@
                                     <div class="box-body">
 
                                         <div class="form-group">
-                                            <label class=""> <?php echo $this->lang->line("Socity Name :");?> <span class="text-danger">*</span></label>
+                                            <label class=""> <?php echo $this->lang->line("Socity Name");?> <span class="text-danger">*</span></label>
                                             <input type="text" name="socity_name" class="form-control" placeholder="Nama Toko"/>
                                         </div>
                                         <div class="form-group">
-                                            <label class=""><?php echo $this->lang->line("Alamat");?> <span class="text-danger">*</span>
+                                            <label class=""><?php echo $this->lang->line("Alamat");?> <span class="text-danger">*</span></label>
                                             <input type="text" name="pincode" class="form-control" placeholder="Alamat"/>
                                         </div>
+                                        <div class="form-group">
+                                            <label class=""><?php echo $this->lang->line("Latitude");?> <span class="text-danger">*</span></label>
+                                            <input type="text" name="latitude" class="form-control" placeholder="Latitude"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class=""><?php echo $this->lang->line("Longitude");?> <span class="text-danger">*</span></label>
+                                            <input type="text" name="longitude" class="form-control" placeholder="Longitude"/>
+                                        </div>
                                          <div class="form-group">
-                                            <label class=""><?php echo $this->lang->line("Delivery Charge");?> : <span class="text-danger">*</span> </label>
+                                            <label class=""><?php echo $this->lang->line("Delivery Charge");?>  <span class="text-danger">*</span> </label>
                                             <input type="number" name="delivery" class="form-control" placeholder="00"/>
                                         </div>
                                     </div><!-- /.box-body -->
@@ -93,9 +101,10 @@
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th class="text-center"><?php echo $this->lang->line("ID");?></th>
-                                                <th><?php echo $this->lang->line("Socity Name :");?></th>
+                                                <th><?php echo $this->lang->line("Socity Name");?></th>
                                                 <th><?php echo $this->lang->line("Alamat");?></th>
+                                                <th><?php echo $this->lang->line("Latitude");?></th>
+                                                <th><?php echo $this->lang->line("Longitude");?></th>
                                                 <th><?php echo $this->lang->line("Delivery Charge");?></th>
                                                 <th class="text-center" style="width: 100px;"><?php echo $this->lang->line("Action");?></th>
                                             </tr>
@@ -103,9 +112,10 @@
                                         <tbody>
                                            <?php foreach($socities as $socity){ ?>
                                             <tr>
-                                                <td class="text-center"><?php echo $socity->socity_id; ?></td>
                                                 <td><?php echo $socity->socity_name; ?></td>
                                                 <td><?php echo $socity->pincode; ?></td>
+                                                <td><?php echo $socity->latitude; ?></td>
+                                                <td><?php echo $socity->longitude; ?></td>
                                                   <td><?php echo $socity->delivery_charge; ?></td>
                                                 <td class="text-center"><div class="btn-group">
                                                         <?php echo anchor('admin/edit_socity/'.$socity->socity_id, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
@@ -129,9 +139,7 @@
       <?php  $this->load->view("admin/common/common_footer"); ?>
 
 
-      <!-- Add the sidebar's background. This div must be placed
-           immediately after the control sidebar -->
-      <div class="control-sidebar-bg"></div>
+<div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 
     <!-- jQuery 2.1.4 -->
@@ -154,32 +162,15 @@
     <script>
       $(function () {
 
-        $('#example2').DataTable({
+        $('#example1').DataTable({
           "paging": true,
           "lengthChange": false,
           "searching": true,
           "ordering": true,
           "info": true,
-          "autoWidth": false
+          "autoWidth": true,
         });
-        $("body").on("change",".tgl_checkbox",function(){
-            var table = $(this).data("table");
-            var status = $(this).data("status");
-            var id = $(this).data("id");
-            var id_field = $(this).data("idfield");
-            var bin=0;
-                                         if($(this).is(':checked')){
-                                            bin = 1;
-                                         }
-            $.ajax({
-              method: "POST",
-              url: "<?php echo site_url("admin/change_status"); ?>",
-              data: { table: table, status: status, id : id, id_field : id_field, on_off : bin }
-            })
-              .done(function( msg ) {
-                alert(msg);
-              });
-        });
+
       });
     </script>
   </body>

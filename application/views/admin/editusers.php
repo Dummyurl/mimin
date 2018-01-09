@@ -40,12 +40,11 @@
                 <!-- Content Header (Page header) -->
                  <section class="content-header">
                     <h1>
-                        <?php echo $this->lang->line("Products");?>
-                        <small>  <?php echo $this->lang->line("List");?></small>
+                    <?php echo ("Data Sales");?>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line("Admin");?></a></li>
-                        <li><a href="#"><?php echo $this->lang->line("Products");?></a></li>
+                        <li><a href="#"><?php echo ("Data Sales");?></a></li>
 
                     </ol>
                 </section>
@@ -53,57 +52,35 @@
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
-                        <div class="col-xs-12">
-                            <?php  if(isset($error)){ echo $error; }
-                                    echo $this->session->flashdata('message'); ?>
+                        <div class="col-xs-6">
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    <h3 class="box-title"><?php echo $this->lang->line("All Products");?></h3>
-                                    <div class="pull-right">
-                                    <a href="add_products" class="btn btn-primary">Tambah Data</a>
-                                    </div>
-                                    </div><!-- /.box-header -->
-                                <div class="box-body table-responsive">
-                                    <table id="example1" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center"><?php echo $this->lang->line("ID");?></th>
-                                                <th><?php echo $this->lang->line("Title");?></th>
-                                                <th><?php echo $this->lang->line("Category Name");?></th>
-                                                  <th style="width: 290px;"><?php echo $this->lang->line("Product Description");?></th>
-                                                <th><?php echo $this->lang->line("Image");?></th>
-                                                <th><?php echo $this->lang->line("Prices");?></th>
-                                                <th><?php echo $this->lang->line("Stock");?></th>
-                                                <th><?php echo $this->lang->line("Status");?></th>
-                                                <th class="text-center" style="width: 100px;"><?php echo $this->lang->line("Action");?></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                           <?php foreach($products as $product){ ?>
-                                            <tr>
-                                                <td class="text-center"><?php echo $product->product_id; ?></td>
-                                                <td><?php echo $product->product_name; ?></td>
-                                                <td><?php echo $product->title; ?></td>
-                                                 <td><?php echo $product->product_description; ?></td>
-                                                <td><?php if($product->product_image!=""){ ?><div class="cat-img" style="width: 50px; height: 50px;"><img width="100%" height="100%" src="<?php echo $this->config->item('base_url').'uploads/products/'.$product->product_image; ?>" /></div> <?php } ?></td>
-                                                <td>
-                                                <?php echo $product->price." per ".$product->unit_value.$product->unit; ?>
-                                                </td>
-                                                <td><?php echo $product->in_stock; ?></td>
-                                                <td><?php if($product->in_stock >= "1"){ ?><span class="label label-success">In Stock</span><?php } else { ?><span class="label label-danger">Out of Stock</span><?php } ?></td>
-                                                <td class="text-center"><div class="btn-group">
-                                                        <?php echo anchor('admin/edit_products/'.$product->product_id, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
-                                                        <?php echo anchor('admin/delete_product/'.$product->product_id, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>
+                                    <h3 class="box-title"><?php echo ("Edit Sales");?></h3>
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                                <form action="" method="post" enctype="multipart/form-data">
+                                    <div class="box-body">
 
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
-                                </div><!-- /.box-body -->
+                                        <div class="form-group">
+                                            <label class=""> <?php echo $this->lang->line("Sales Name");?><span class="text-danger"><?php echo $this->lang->line("*");?></span></label>
+                                            <input type="text" name="user_fullname" value="<?php echo $registers->user_fullname; ?>" class="form-control" placeholder="Nama Toko"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class=""><?php echo $this->lang->line("Phone");?> <span class="text-danger"><?php echo $this->lang->line("*");?></span></label>
+                                            <input type="text" name="user_phone"  value="<?php echo $registers->user_phone; ?>" class="form-control" placeholder="Alamat"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class=""><?php echo $this->lang->line("Email");?> <span class="text-danger"><?php echo $this->lang->line("*");?></span></label>
+                                            <input type="text" name="user_email"  value="<?php echo $registers->user_email; ?>" class="form-control" placeholder="Latitude"/>
+                                    </div><!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <input type="submit" class="btn btn-primary" name="addcatg" value="Simpan" />
+
+                                    </div>
+                                </form>
                             </div><!-- /.box -->
                         </div>
+
                     </div>
                     <!-- Main row -->
                 </section><!-- /.content -->
@@ -138,13 +115,13 @@
     <script>
       $(function () {
 
-        $('#example1').DataTable({
+        $('#example2').DataTable({
           "paging": true,
           "lengthChange": false,
           "searching": true,
           "ordering": true,
           "info": true,
-          "autoWidth": true,
+          "autoWidth": false
         });
         $("body").on("change",".tgl_checkbox",function(){
             var table = $(this).data("table");

@@ -69,6 +69,7 @@
                                                 <th><?php echo $this->lang->line("Title");?></th>
                                                 <th><?php echo $this->lang->line("Unit");?></th>
                                                 <th><?php echo $this->lang->line("Stock");?></th>
+                                                <th><?php echo $this->lang->line("Item Ordered");?></th>
 
                                             </tr>
                                         </thead>
@@ -78,9 +79,9 @@
                                                 <td class="text-center"><?php echo $product->product_id; ?></td>
                                                 <td><?php echo $product->product_name; ?></td>
                                                 <td><?php echo $product->unit; ?></td>
-                                                <td>
-                                                <?php echo $product->stock; ?>
-                                                </td>
+                                                <td><?php echo $product->in_stock; ?> </td>
+                                                <td><?php echo $product->stock; ?></td>
+
 
                                             </tr>
                                             <?php } ?>

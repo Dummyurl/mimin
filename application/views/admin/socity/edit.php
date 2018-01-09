@@ -62,12 +62,20 @@
                                     <div class="box-body">
 
                                         <div class="form-group">
-                                            <label class=""> <?php echo $this->lang->line("Socity Name :");?><span class="text-danger"><?php echo $this->lang->line("*");?></span></label>
+                                            <label class=""> <?php echo $this->lang->line("Socity Name");?><span class="text-danger"><?php echo $this->lang->line("*");?></span></label>
                                             <input type="text" name="socity_name" value="<?php echo $socity->socity_name; ?>" class="form-control" placeholder="Nama Toko"/>
                                         </div>
                                         <div class="form-group">
-                                            <label class=""><?php echo $this->lang->line("Alamat");?> <span class="text-danger"><?php echo $this->lang->line("*");?></span>
+                                            <label class=""><?php echo $this->lang->line("Alamat");?> <span class="text-danger"><?php echo $this->lang->line("*");?></span></label>
                                             <input type="text" name="pincode"  value="<?php echo $socity->pincode; ?>" class="form-control" placeholder="Alamat"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class=""><?php echo $this->lang->line("Latitude");?> <span class="text-danger"><?php echo $this->lang->line("*");?></span></label>
+                                            <input type="text" name="latitude"  value="<?php echo $socity->latitude; ?>" class="form-control" placeholder="Latitude"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class=""><?php echo $this->lang->line("Longitude");?> <span class="text-danger"><?php echo $this->lang->line("*");?></span></label>
+                                            <input type="text" name="longitude"  value="<?php echo $socity->longitude; ?>" class="form-control" placeholder="Longitude"/>
                                         </div>
                                          <div class="form-group">
                                             <label class=""><?php echo $this->lang->line("Delivery Charge");?> : <span class="text-danger"><?php echo $this->lang->line("*");?></span> </label>

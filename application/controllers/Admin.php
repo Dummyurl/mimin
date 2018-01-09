@@ -110,8 +110,8 @@ class Admin extends MY_Controller {
 
                 foreach ($marker as $coordinate) {
                 $marker = array();
-                $marker['position'] = $coordinate->lat.','.$coordinate->lng;
-                $marker['infowindow_content'] = $coordinate->name;
+                $marker['position'] = $coordinate->latitude.','.$coordinate->longitude;
+                $marker['infowindow_content'] = $coordinate->socity_name;
                 $marker['icon'] = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=T|9999FF|000000';
                 $this->googlemaps->add_marker($marker);
                 }
@@ -202,7 +202,7 @@ class Admin extends MY_Controller {
                              }
                 $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                   <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                  <strong>Success!</strong> Order confirmed. </div>');
+                                  <strong>Sukses!</strong> Pesanan dikonfirmasi. </div>');
             }
             redirect("admin/orders");
         }
@@ -239,7 +239,7 @@ class Admin extends MY_Controller {
 
                 $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                   <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                  <strong>Success!</strong> Order delivered. </div>');
+                                  <strong>Sukses!</strong> Pesanan terkirim. </div>');
             }
             redirect("admin/orders");
         }
@@ -274,7 +274,7 @@ class Admin extends MY_Controller {
 
                 $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                   <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                  <strong>Success!</strong> Order Cancle. </div>');
+                                  <strong>Sukses!</strong> Pesanan dibatalkan. </div>');
             }
             redirect("admin/orders");
         }
@@ -292,7 +292,7 @@ class Admin extends MY_Controller {
                 $this->db->query("delete from sale where sale_id = '".$order_id."'");
                 $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                   <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                  <strong>Success!</strong> Order deleted. </div>');
+                                  <strong>Sukses!</strong> Pesanan dihapus. </div>');
             }
             redirect("admin/orders");
         }
@@ -348,7 +348,7 @@ class Admin extends MY_Controller {
                             $this->common_model->data_insert("user_types",array("user_type_title"=>$user_type));
                             $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                   <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                  <strong>Success!</strong> User Type added Successfully
+                                  <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
                                 </div>') ;
                              redirect("admin/user_types/");
 
@@ -462,7 +462,7 @@ public function listretur()
             $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your item deleted successfully...
+                                      <strong>Sukses!</strong> Barang anda berhasil dihapus...
                                     </div>');
             redirect('admin/retur');
         }
@@ -512,7 +512,7 @@ public function listretur()
             $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your item deleted successfully...
+                                      <strong>Sukses!</strong> Barang anda berhasil dihapus...
                                     </div>');
             redirect('admin/listkunjungan');
         }
@@ -554,7 +554,7 @@ public function listretur()
                     $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your request added successfully...
+                                      <strong>Sukses!</strong> Permintaan kamu berhasil ditambahkan...
                                     </div>');
                     redirect('admin/addcategories');
                	}
@@ -599,7 +599,7 @@ public function listretur()
                     $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your category saved successfully...
+                                      <strong>Sukses!</strong> Permintaan kamu berhasil ditambahkan...
                                     </div>');
                     redirect('admin/listcategories');
                	}
@@ -635,7 +635,7 @@ public function listretur()
             $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your item deleted successfully...
+                                      <strong>Sukses!</strong> Berhasil dihapus...
                                     </div>');
             redirect('admin/listcategories');
         }
@@ -682,7 +682,7 @@ function edit_products($prod_id){
                      "product_name"=>$this->input->post("prod_title"),
                     "category_id"=>$this->input->post("parent"),
                      "product_description"=>$this->input->post("product_description"),
-                    "in_stock"=>$this->input->post("prod_status"),
+                    "in_stock"=>$this->input->post("in_stock"),
                     "price"=>$this->input->post("price"),
                     "unit_value"=>$this->input->post("qty"),
                     "unit"=>$this->input->post("unit")
@@ -709,7 +709,7 @@ function edit_products($prod_id){
                     $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your request added successfully...
+                                      <strong>Sukses!</strong> Permintaan kamu berhasil ditambahkan...
                                     </div>');
                     redirect('admin/products');
                	}
@@ -732,7 +732,8 @@ function add_products(){
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('prod_title', 'Categories Title', 'trim|required');
                 $this->form_validation->set_rules('parent', 'Categories Parent', 'trim|required');
-                 $this->form_validation->set_rules('price', 'price', 'trim|required');
+                $this->form_validation->set_rules('in_stock', 'in_stock', 'trim|required');
+                $this->form_validation->set_rules('price', 'price', 'trim|required');
                 $this->form_validation->set_rules('qty', 'qty', 'trim|required');
 
                 if ($this->form_validation->run() == FALSE)
@@ -752,7 +753,7 @@ function add_products(){
                     $array = array(
                      "product_name"=>$this->input->post("prod_title"),
                     "category_id"=>$this->input->post("parent"),
-                    "in_stock"=>$this->input->post("prod_status"),
+                    "in_stock"=>$this->input->post("in_stock"),
                      "product_description"=>$this->input->post("product_description"),
                     "price"=>$this->input->post("price"),
                     "unit_value"=>$this->input->post("qty"),
@@ -779,7 +780,7 @@ function add_products(){
                     $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your request added successfully...
+                                     <strong>Sukses!</strong> Permintaan kamu berhasil ditambahkan...
                                     </div>');
                     redirect('admin/products');
                	}
@@ -834,7 +835,7 @@ public function add_purchase(){
                     $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your request added successfully...
+                                      <strong>Sukses!</strong> Permintaan kamu berhasil ditambahkan...
                                     </div>');
                     redirect("admin/add_purchase");
                 }
@@ -881,7 +882,7 @@ function edit_purchase($id){
                     $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your request added successfully...
+                                      <strong>Sukses!</strong> Permintaan kamu berhasil ditambahkan...
                                     </div>');
                     redirect("admin/add_purchase");
                 }
@@ -908,8 +909,10 @@ function delete_purchase($id){
             {
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('pincode', 'pincode', 'trim|required');
+                $this->form_validation->set_rules('latitude', 'latitude', 'trim|required');
+                $this->form_validation->set_rules('longitude', 'longitude', 'trim|required');
                 $this->form_validation->set_rules('socity_name', 'Socity Name', 'trim|required');
-                 $this->form_validation->set_rules('delivery', 'Delivery Charges', 'trim|required');
+                $this->form_validation->set_rules('delivery', 'Delivery Charges', 'trim|required');
 
                 if ($this->form_validation->run() == FALSE)
         		{
@@ -927,7 +930,9 @@ function delete_purchase($id){
                     $array = array(
                     "socity_name"=>$this->input->post("socity_name"),
                     "pincode"=>$this->input->post("pincode"),
-                      "delivery_charge"=>$this->input->post("delivery")
+                    "latitude"=>$this->input->post("latitude"),
+                    "longitude"=>$this->input->post("longitude"),
+                    "delivery_charge"=>$this->input->post("delivery")
 
                     );
                     $this->common_model->data_insert("socity",$array);
@@ -935,7 +940,7 @@ function delete_purchase($id){
                     $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your request added successfully...
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
                                     </div>');
                     redirect("admin/socity");
                 }
@@ -986,7 +991,7 @@ function delete_purchase($id){
                     $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your request added successfully...
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
                                     </div>');
                     redirect("admin/socity");
                 }
@@ -1026,6 +1031,55 @@ function delete_purchase($id){
             redirect('admin');
         }
     }
+
+    function edit_users($id){
+        if(_is_user_login($this)){
+            if(isset($_POST))
+            {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('user_fullname', 'user_fullname', 'trim|required');
+                $this->form_validation->set_rules('user_phone', 'user_phone', 'trim|required');
+                $this->form_validation->set_rules('user_email', 'user_email', 'trim|required');
+
+                if ($this->form_validation->run() == FALSE)
+        		{
+        		  if($this->form_validation->error_string()!="")
+        			  $this->session->set_flashdata("message", '<div class="alert alert-warning alert-dismissible" role="alert">
+                                        <i class="fa fa-warning"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Warning!</strong> '.$this->form_validation->error_string().'
+                                    </div>');
+        		}
+        		else
+        		{
+
+                    $this->load->model("common_model");
+                    $array = array(
+                    "user_fullname"=>$this->input->post("user_fullname"),
+                    "user_phone"=>$this->input->post("user_phone"),
+                    "user_email"=>$this->input->post("user_email")
+
+                    );
+                    $this->common_model->data_update("registers",$array,array("user_id"=>$id));
+
+                    $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
+                                        <i class="fa fa-check"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
+                                    </div>');
+                    redirect("admin/registers");
+                }
+
+                $this->load->model("product_model");
+                $data["registers"]  = $this->product_model->get_registers_by_id($id);
+                $this->load->view("admin/editusers",$data);
+        }
+         else
+        {
+            redirect('admin');
+        }
+    }
+}
 
 
 
@@ -1068,7 +1122,7 @@ public function addpage_app()
                     $this->load->model("page_app_model");
                     $this->page_app_model->add_page();
                     $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert"><i class="fa fa-check"></i><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your Page added successfully...</div>');
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...</div>');
                     redirect('admin/addpage_app');
                	}
             }
@@ -1125,7 +1179,7 @@ public function addpage_app()
                     $this->load->model("page_app_model");
                     $this->page_app_model->set_page();
                     $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert"><i class="fa fa-check"></i><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your page saved successfully...</div>');
+                                      <strong>Sukses!</strong> Permintaan anda berhasil disimpan...</div>');
                     redirect('admin/allpageapp');
                	}
             }
@@ -1144,7 +1198,7 @@ public function addpage_app()
             $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your page deleted successfully...
+                                      <strong>Sukses!</strong> Permintaan anda berhasil dihapus......
                                     </div>');
             redirect('admin/allpage_app');
         }
@@ -1197,7 +1251,7 @@ public function addpage_app()
                     $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your request added successfully...
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
                                     </div>');
                     redirect("admin/setting");
                 }
@@ -1399,7 +1453,7 @@ public function addpage_app()
                     $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your Slider added successfully...
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
                                     </div>');
                     redirect('admin/addslider');
                	}
@@ -1457,7 +1511,7 @@ public function addpage_app()
                     $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert">
                                         <i class="fa fa-check"></i>
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                      <strong>Success!</strong> Your Slider saved successfully...
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
                                     </div>');
                     redirect('admin/listslider');
                	}

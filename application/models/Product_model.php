@@ -125,7 +125,7 @@ class Product_model extends CI_Model{
       }
 
       function get_leftstock(){
-        $q = $this->db->query("Select products.*,(products.in_stock+( ifnull (producation.p_qty,0) - ifnull(consuption.c_qty,0))) as stock from products
+        $q = $this->db->query("Select products.*,(( ifnull (producation.p_qty,0) - ifnull(consuption.c_qty,0))) as stock from products
         left outer join(select SUM(qty) as c_qty,product_id from sale_items group by product_id) as consuption on consuption.product_id = products.product_id
             left outer join(select SUM(qty) as p_qty,product_id from purchase group by product_id) as producation on producation.product_id = products.product_id
             ");
@@ -140,6 +140,11 @@ class Product_model extends CI_Model{
             $q = $this->db->query($sql);
 
             return $q->result();
+      }
+       function get_registers_by_id($id){
+        $q = $this->db->query("Select * from registers
+            where 1 and user_id = '".$id."'");
+            return $q->row();
       }
 }
 ?>

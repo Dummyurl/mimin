@@ -9,8 +9,8 @@ class Marker_model extends CI_Model{
         {
             $return = array();
 
-            $this->db->select("lat,lng,name");
-            $this->db->from("marker");
+            $this->db->select("latitude,longitude,socity_name");
+            $this->db->from("socity");
             $query = $this->db->get();
 
             if ($query->num_rows()>0) {

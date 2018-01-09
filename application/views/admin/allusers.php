@@ -93,7 +93,7 @@
                     <td><?php echo (($user->total_amount*100)/100); ?></td>
                     <td><?php if($user->status == "1"){ ?><span class="label label-success"><?php echo $this->lang->line("Active");?></span><?php } else { ?><span class="label label-danger"><?php echo $this->lang->line("Deactive");?></span><?php } ?></td>
                     <td class="text-center"><div class="btn-group">
-
+                    <?php echo anchor('admin/edit_users/'.$user->user_id, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
                     <?php echo anchor('admin/delete_users/'.$user->user_id, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>
                      </div>
                     </td>

@@ -91,8 +91,8 @@
                                                 <td><?php echo $acat->keterangan; ?></td>
 
                                                 <td class="text-center"><div class="btn">
-                                                    <?php echo anchor('admin/editcategory/'.$acat->id_retur, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
-                                                        <?php echo anchor('admin/deletekun/'.$acat->id_retur, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>
+                                                    <?php echo anchor('admin/editretur/'.$acat->id_retur, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
+                                                        <?php echo anchor('admin/deleteretur/'.$acat->id_retur, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>
 
                                                     </div>
                                                 </td>
