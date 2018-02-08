@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Kategori</title>
+    <title>Admin | Edit Sales</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -40,71 +40,48 @@
                 <!-- Content Header (Page header) -->
                  <section class="content-header">
                     <h1>
-                         <?php echo $this->lang->line("All Caegories");?>
-                        <small> <?php echo $this->lang->line("Preview");?></small>
+                    <?php echo ("Data Sales");?>
                     </h1>
                     <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line("Home");?></a></li>
-                        <li><a href="#"> <?php echo $this->lang->line("Categories");?></a></li>
-                        <li class="active"> <?php echo $this->lang->line("All Categories");?></li>
+                        <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line("Admin");?></a></li>
+                        <li><a href="#"><?php echo ("Data Sales");?></a></li>
+
                     </ol>
                 </section>
 
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
-                        <div class="col-xs-12">
-                            <?php  if(isset($error)){ echo $error; }
-                                    echo $this->session->flashdata('success_req'); ?>
+                        <div class="col-xs-6">
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    <h3 class="box-title"> <?php echo $this->lang->line("All Categories");?></h3>
-                                    <div class="pull-right">
-                                    <a href="addcategories" class="btn btn-primary">Tambah Data</a>
-                                    </div>
+                                    <h3 class="box-title"><?php echo ("Edit Sales");?></h3>
                                 </div><!-- /.box-header -->
-                                <div class="box-body table-responsive">
-                                    <table id="example1" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
+                                <!-- form start -->
+                                <form action="" method="post" enctype="multipart/form-data">
+                                    <div class="box-body">
 
-                                                <th>  <?php echo $this->lang->line("Title");?></th>
-                                                <th><?php echo $this->lang->line("Parent Category :");?>  </th>
-                                                <th> <?php echo $this->lang->line("Image");?></th>
+                                         <div class="form-group">
+                                            <label class=""><?php echo $this->lang->line("Password");?> <span class="text-danger"><?php echo $this->lang->line("*");?></span></label>
+                                            <input type="text" name="user_password"  value="<?php echo $registers->user_password; ?>" class="form-control" placeholder="Password"/>
+                                         </div><!-- /.box-body -->
 
-                                                <th> <?php echo $this->lang->line("Status");?></th>
-                                                <th class="text-center" style="width: 100px;"> <?php echo $this->lang->line("Action");?></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                           <?php foreach($allcat as $acat){ ?>
-                                            <tr>
+                                    <div class="box-footer">
+                                        <input type="submit" class="btn btn-danger" name="addcatg" value="Ganti Password" />
+                                        <button type="button" onclick="history.back();" class="btn btn-primary"  >Kembali </button>
 
-                                                 <td><?php echo $acat->title; ?></td>
-                                                <td><?php   if($acat->prtitle!=""){  echo $acat->prtitle; }else { echo "________"; }?></td>
-                                                 <td><?php if($acat->image!=""){ ?><div class="cat-img" style="width: 250px; height: 50px;"><img width="100%" height="100%" src="<?php echo $this->config->item('base_url').'uploads/category/'.$acat->image; ?>" /></div> <?php } ?></td>
-
-                                                <td><?php if($acat->status == "1"){ ?><span class="label label-success"> <?php echo $this->lang->line("Active");?></span><?php } else { ?><span class="label label-danger"> <?php echo $this->lang->line("Deactive");?></span><?php } ?></td>
-                                                <td class="text-center"><div class="btn-group">
-                                                        <?php echo anchor('admin/editcategory/'.$acat->id, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
-                                                        <?php echo anchor('admin/deletecat/'.$acat->id, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>
-
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
-                                </div><!-- /.box-body -->
+                                    </div>
+                                </form>
                             </div><!-- /.box -->
                         </div>
+
                     </div>
                     <!-- Main row -->
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
         </div><!-- /.content-wrapper -->
 
-     <?php  $this->load->view("admin/common/common_footer"); ?>
+      <?php  $this->load->view("admin/common/common_footer"); ?>
 
 
       <!-- Add the sidebar's background. This div must be placed
@@ -132,13 +109,13 @@
     <script>
       $(function () {
 
-        $('#example1').DataTable({
+        $('#example2').DataTable({
           "paging": true,
           "lengthChange": false,
           "searching": true,
           "ordering": true,
           "info": true,
-          "autoWidth": true,
+          "autoWidth": false
         });
         $("body").on("change",".tgl_checkbox",function(){
             var table = $(this).data("table");

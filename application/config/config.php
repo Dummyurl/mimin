@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed'); 
+defined('BASEPATH') OR exit('No direct script access allowed');
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -27,11 +27,11 @@ str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 $config['theme_admin'] = "theme/admin";
 
  $config['currency'] = 'RP';
- 
+
 $config['default_email'] = "";
 $config['email_host'] = "";
 
-$config['company_title'] = 'PT BINTANG';
+$config['company_title'] = 'CV. UPINDO JAYA';
 /*
 |--------------------------------------------------------------------------
 | Index File

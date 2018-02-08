@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Tambah Produk</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -115,17 +115,25 @@
                                             <input type="file" name="prod_img" />
                                         </div>
                                         <div class="form-group">
-                                            <div class="form-group">
-                                            <label class=""><?php echo $this->lang->line("Stock");?> <span class="text-danger">*</span></label>
-                                            <input type="text" name="in_stock" class="form-control" placeholder="Stock Barang"/>
-                                        </div>
+                                            <div class="radio-inline">
+                                                <label>
+                                                    <input type="radio" name="in_stock" id="optionsRadios1" value="1" checked/>
+                                                    <?php echo $this->lang->line("In Stock");?>
+                                                </label>
+                                            </div>
+                                            <div class="radio-inline">
+                                                <label>
+                                                    <input type="radio" name="in_stock" id="optionsRadios2" value="0"/>
+                                                    <?php echo $this->lang->line("Out of stock");?>
+                                                </label>
+                                            </div>
                                             <p class="help-block"><?php echo $this->lang->line("Product Status.");?></p>
                                         </div>
 
 
                                         <div class="form-group">
                                             <label class=""><?php echo $this->lang->line("Price :");?> <span class="text-danger">*</span></label>
-                                            <input type="text" name="price" class="form-control" placeholder="00.00"/>
+                                            <input type="text" name="price" class="form-control" placeholder="Harga"/>
                                         </div>
                                         <div class="form-group">
                                             <label class=""><?php echo $this->lang->line("Qty :");?> <span class="text-danger">*</span></label>
@@ -134,7 +142,7 @@
                                         <div class="form-group">
                                             <label class=""><?php echo $this->lang->line("Unit :");?> <span class="text-danger">*</span></label>
 
-                                                    <input type="text" name="unit" class="form-control" placeholder="KG/ BAG/ NOS/ QTY / dll "/>
+                                                    <input type="text" name="unit" class="form-control" placeholder="BALL/PAK/PCS "/>
 
                                         </div>
 
@@ -145,7 +153,7 @@
 
 
                                     <div class="box-footer">
-                                        <input type="submit" class="btn btn-primary" name="addcatg" value="Add Product" />
+                                        <input type="submit" class="btn btn-primary" name="addcatg" value="Tambah Produk" />
 
                                     </div>
                                 </form>

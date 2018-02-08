@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Edit Target Kunjungan </title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -41,13 +41,13 @@
                 <!-- Content Header (Page header) -->
                  <section class="content-header">
                     <h1>
-                         <?php echo $this->lang->line("Retur"); ?>
+                         <?php echo $this->lang->line("Edit Target Kunjungan"); ?>
                         <small> <?php echo $this->lang->line("Preview"); ?></small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i>  <?php echo $this->lang->line("Home"); ?></a></li>
-                        <li><a href="#"> <?php echo $this->lang->line("Retur"); ?></a></li>
-                        <li class="active"> <?php echo $this->lang->line("Add Retur"); ?></li>
+                        <li><a href="#"> <?php echo $this->lang->line("Kunjungan"); ?></a></li>
+                        <li class="active"> <?php echo $this->lang->line("Edit Target Kunjungan"); ?></li>
                     </ol>
                 </section>
 
@@ -60,31 +60,52 @@
                             <!-- general form elements -->
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    <h3 class="box-title"> <?php echo $this->lang->line("Add Retur"); ?></h3>
+                                    <h3 class="box-title"> <?php echo $this->lang->line("Edit Target Kunjungan"); ?></h3>
                                 </div><!-- /.box-header -->
                                 <!-- form start -->
                                 <form action="" method="post" enctype="multipart/form-data">
                                     <div class="box-body">
                                         <div class="form-group">
-                                            <label class="">  <?php echo $this->lang->line("Nama Sales :"); ?><span class="text-danger">*</span></label>
-                                            <input type="text" name="cat_title" class="form-control" placeholder="Nama Sales"/>
-                                        </div>
-                                       <div class="form-group">
-                                            <label class="">  <?php echo $this->lang->line("Email :"); ?><span class="text-danger">*</span></label>
-                                            <input type="text" name="cat_title" class="form-control" placeholder="Email"/>
+                                            <label class="">  <?php echo $this->lang->line("Sales Name"); ?><span class="text-danger">*</span></label>
+                                            <select class='text-input form-control' id='namasales' name="id_sales" >
+                                         <?php echo "<option value='$target->id_sales'>$target->user_fullname</option>"; ?>
+                                        <?php
+                                        foreach ($namas as $nama) {
+                                            if ($nama->user_id == $id_sales) {
+                                                echo "<option selected=selected value='$nama->user_id'>$nama->user_fullname</option>";
+                                            }else{
+                                                echo "<option value='$nama->user_id'>$nama->user_fullname</option>";
+                                            }
+                                        } ?>
+                                        </select>
                                         </div>
                                         <div class="form-group">
-                                            <label class="">  <?php echo $this->lang->line("No Hp :"); ?><span class="text-danger">*</span></label>
-                                            <input type="text" name="cat_title" class="form-control" placeholder="No Hp"/>
+                                            <label class="">  <?php echo $this->lang->line("Toko"); ?><span class="text-danger">*</span></label>
+                                            <select class='text-input form-control' id='namatoko' name="id_toko">
+                                        <?php echo "<option value='$target->id_toko'>$target->socity_name</option>"; ?>
+                                        <?php
+                                        foreach ($tokos as $nama) {
+                                            if ($nama->socity_id == $id_toko) {
+                                                echo "<option selected=selected value='$nama->socity_id'>$nama->socity_name</option>";
+                                            }else{
+                                                echo "<option value='$nama->socity_id'>$nama->socity_name</option>";
+                                            }
+                                        } ?>
+                                        </select>
                                         </div>
                                         <div class="form-group">
-                                            <label class="">  <?php echo $this->lang->line("Password :"); ?><span class="text-danger">*</span></label>
-                                            <input type="text" name="cat_title" class="form-control" placeholder="Password"/>
+                                            <label class="">  <?php echo $this->lang->line("Batas Jam"); ?><span class="text-danger">*</span></label>
+                                            <input type="text" name="jam_akhir" class="form-control" value="<?php echo $target->jam_akhir; ?>"placeholder="00:00"/>
                                         </div>
+                                         <div class="form-group">
+                                            <label class="">  <?php echo $this->lang->line("Date"); ?><span class="text-danger">*</span></label>
+                                            <input type="text" name="tanggal" class="form-control" value="<?php echo $target->tanggal; ?>"placeholder="2018-02-00"/>
+                                        </div>
+
                                     </div><!-- /.box-body -->
 
                                     <div class="box-footer">
-                                        <input type="submit" class="btn btn-primary" name="addusers" value="Masukkan Retur" />
+                                        <input type="submit" class="btn btn-primary" name="addcatg" value="Edit Target" />
 
                                     </div>
                                 </form>

@@ -103,7 +103,7 @@ class Admin extends MY_Controller {
                 $this->load->model('Marker_model', '', TRUE);
                 $this->load->model('Sales_model', '', TRUE);
                 $config['center'] = '-3.318847, 114.593266';
-                $config['zoom'] = '15';
+                $config['zoom'] = '13';
                 $this->googlemaps->initialize($config);
 
                 $marker = $this->Marker_model->get_coordinates();
@@ -116,7 +116,16 @@ class Admin extends MY_Controller {
                 $this->googlemaps->add_marker($marker);
                 }
 
-               $registers = $this->Sales_model->get_sales();
+                $registers = $this->Sales_model->get_sales();
+                $data['id_sales'] = "";
+                $data['datepicker'] = "";
+                if (!empty($this->input->post('datepicker')) && !empty($this->input->post('id_sales')) )
+                {
+                    $tgl = $this->Sales_model->tgl_sql($this->input->post('datepicker'));
+                    $registers = $this->Sales_model->get_sales_filter($this->input->post('id_sales'),$tgl);
+                    $data['id_sales'] = $this->input->post('id_sales');
+                    $data['datepicker'] = $this->input->post('datepicker');
+                }
 
                 foreach ($registers as $coordinate) {
                 $marker = array();
@@ -125,6 +134,8 @@ class Admin extends MY_Controller {
                 $this->googlemaps->add_marker($marker);
                 }
 
+
+                $data['namas'] = $this->Sales_model->data_sales();
 
                 $data['map'] = $this->googlemaps->create_map();
                 $this->load->view("admin/monitoring", $data);
@@ -142,14 +153,51 @@ class Admin extends MY_Controller {
     public function laporan(){
          if(_is_user_login($this)){
             $this->load->model("product_model");
-            $users = $this->product_model->get_all_users();
-            $this->load->view("admin/laporan",array("users"=>$users));
+            $data['tahun'] = "";
+            $data['bulan'] = "";
+            $data['users'] = $this->product_model->get_all_users(null,null);
+            $data['thn'] = $this->product_model->data_tahun();
+            if (!empty($this->input->post('tahun'))){
+                $data['tahun'] = $this->input->post('tahun');
+                $data['users'] = $this->product_model->get_all_users($data['tahun'],null);
+                if(!empty($this->input->post('bulan')) ){
+                    $data['bulan'] = $this->input->post('bulan');
+                    $data['users'] = $this->product_model->get_all_users($data['tahun'],$data['bulan']);
+                }
+            }
+            $this->load->view("admin/laporan/laporan",$data);
         }
          else
         {
             redirect('admin');
         }
     }
+
+     public function laporan_kunjungan(){
+         if(_is_user_login($this)){
+
+            $this->load->model("product_model");
+            $data['tahun'] = "";
+            $data['bulan'] = "";
+            $data['users'] = $this->product_model->get_all_kunjungan(null,null);
+            $data['thn'] = $this->product_model->data_tahun();
+            if (!empty($this->input->post('tahun'))){
+                $data['tahun'] = $this->input->post('tahun');
+                $data['users'] = $this->product_model->get_all_kunjungan($data['tahun'],null);
+                if(!empty($this->input->post('bulan')) ){
+                    $data['bulan'] = $this->input->post('bulan');
+                    $data['users'] = $this->product_model->get_all_kunjungan($data['tahun'],$data['bulan']);
+                }
+            }
+            $this->load->view("admin/laporan/laporan_kunjungan",$data);
+        }
+         else
+        {
+            redirect('admin');
+        }
+    }
+
+
 
 
     public function orders(){
@@ -432,7 +480,7 @@ public function listretur()
             }
             $data["today_retur"] = $this->Retur_model->filter_retur($filter);
            //
-           $this->load->view('admin/retur',$data);
+           $this->load->view('admin/retur/retur',$data);
 
         }
         else
@@ -443,15 +491,113 @@ public function listretur()
 
     public function addretur()
     {
-         if(_is_user_login($this)){
-            $this->load->model("product_model");
-            $users = $this->product_model->get_all_users();
-            $this->load->view("admin/addretur");
+        if(_is_user_login($this)){
+         if(isset($_POST))
+            {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('nama_produk', 'Nama Produk', 'trim|required');
+                $this->form_validation->set_rules('nama_sales', 'Nama Sales', 'trim|required');
+                $this->form_validation->set_rules('nama_toko', 'Nama Toko', 'trim|required');
+                $this->form_validation->set_rules('jumlah', 'Jumlah', 'trim|required');
+                $this->form_validation->set_rules('total_harga', 'Total Harga', 'trim|required');
+                $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
+
+                if ($this->form_validation->run() == FALSE)
+        		{
+        		  if($this->form_validation->error_string()!="")
+        			  $this->session->set_flashdata("message", '<div class="alert alert-warning alert-dismissible" role="alert">
+                                        <i class="fa fa-warning"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Warning!</strong> '.$this->form_validation->error_string().'
+                                    </div>');
+        		}
+        		else
+        		{
+
+                    $this->load->model("common_model");
+                    $array = array(
+                    "nama_produk"=>$this->input->post("nama_produk"),
+                    "nama_sales"=>$this->input->post("nama_sales"),
+                    "nama_toko"=>$this->input->post("nama_toko"),
+                    "jumlah"=>$this->input->post("jumlah"),
+                    "total_harga"=>$this->input->post("total_harga"),
+                    "keterangan"=>$this->input->post("keterangan")
+
+                    );
+                    $this->common_model->data_insert("retur",$array);
+
+                    $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
+                                        <i class="fa fa-check"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
+                                    </div>');
+                    redirect('admin/listretur');
+              	}
+            }
+	            $this->load->model("retur_model");
+                $data["retur"]  = $this->retur_model->get_retur();
+                $this->load->view("admin/retur/addretur",$data);
         }
         else
         {
             redirect('admin');
         }
+    }
+    public function editretur($id)
+    {
+    if(_is_user_login($this)){
+         if(isset($_POST))
+            {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('nama_produk', 'Nama Produk', 'trim|required');
+                $this->form_validation->set_rules('nama_sales', 'Nama Sales', 'trim|required');
+                $this->form_validation->set_rules('nama_toko', 'Nama Toko', 'trim|required');
+                $this->form_validation->set_rules('jumlah', 'Jumlah', 'trim|required');
+                $this->form_validation->set_rules('total_harga', 'Total Harga', 'trim|required');
+                $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
+
+                if ($this->form_validation->run() == FALSE)
+        		{
+        		  if($this->form_validation->error_string()!="")
+        			  $this->session->set_flashdata("message", '<div class="alert alert-warning alert-dismissible" role="alert">
+                                        <i class="fa fa-warning"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Warning!</strong> '.$this->form_validation->error_string().'
+                                    </div>');
+        		}
+        		else
+        		{
+
+                    $this->load->model("common_model");
+                    $array = array(
+                    "nama_produk"=>$this->input->post("nama_produk"),
+                    "nama_sales"=>$this->input->post("nama_sales"),
+                    "nama_toko"=>$this->input->post("nama_toko"),
+                    "jumlah"=>$this->input->post("jumlah"),
+                    "total_harga"=>$this->input->post("total_harga"),
+                    "keterangan"=>$this->input->post("keterangan")
+
+                    );
+                    $this->common_model->data_update("retur",$array,array("id_retur"=>$id));
+
+                    $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
+                                        <i class="fa fa-check"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
+                                    </div>');
+                    redirect("admin/listretur");
+                }
+                    $this->load->model("retur_model");
+                    $data["retur"] = $this->retur_model->get_retur_by_id($id);
+                    $this->load->view("admin/retur/editretur",$data);
+
+            }
+        }
+         else
+        {
+            redirect('admin');
+        }
+
     }
 
     public function deleteretur($id)
@@ -464,7 +610,7 @@ public function listretur()
                                       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                       <strong>Sukses!</strong> Barang anda berhasil dihapus...
                                     </div>');
-            redirect('admin/retur');
+            redirect('admin/listretur');
         }
         else
         {
@@ -491,11 +637,182 @@ public function listretur()
 			    $dates = explode(",",$filter);
                 $fromdate =  date("Y-m-d", strtotime($dates[0]));
                 $todate =  date("Y-m-d", strtotime($dates[1]));
-                $filter = " and sale.on_date >= '".$fromdate."' and sale.on_date <= '".$todate."' ";
+                $filter = " and kunjungan.waktu >= '".$fromdate."' and kunjungan.waktu <= '".$todate."' ";
             }
             $data["today_kunjungan"] = $this->Kunjungan_model->filter_kunjungan($filter);
            //
            $this->load->view('admin/kunjungan/listkun',$data);
+
+        }
+        else
+        {
+            redirect('admin');
+        }
+    }
+
+    public function taskkunjungan()
+    {
+        if(_is_user_login($this)){
+
+            $data = array();
+            $this->load->model("Kunjungan_model");
+            $this->load->model('Sales_model', '', TRUE);
+                $data['id_sales'] = "";
+                $data['datepicker'] = "";
+                $data["today_kunjungan"] = $this->Kunjungan_model->target_kunjungan(null,null);
+                if (!empty($this->input->post('datepicker')) && !empty($this->input->post('id_sales')) )
+                {
+                    $tgl = $this->Kunjungan_model->tgl_sql($this->input->post('datepicker'));
+                    $data['today_kunjungan'] = $this->Kunjungan_model->get_kunjungan_filter($this->input->post('id_sales'),$tgl);
+                    $data['id_sales'] = $this->input->post('id_sales');
+                    $data['datepicker'] = $this->input->post('datepicker');
+                }
+           $data['namas'] = $this->Sales_model->data_sales();
+           $this->load->view('admin/kunjungan/taskkun',$data);
+
+        }
+        else
+        {
+            redirect('admin');
+        }
+    }
+
+    public function add_target()
+    {
+        if(_is_user_login($this)){
+         if(isset($_POST))
+            {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('id_sales', 'Nama Sales', 'trim|required');
+                $this->form_validation->set_rules('id_toko', 'Toko', 'trim|required');
+                $this->form_validation->set_rules('jam_akhir', 'Batas Jam', 'trim|required');
+                $this->form_validation->set_rules('tanggal', 'tanggal', 'trim|required');
+
+                if ($this->form_validation->run() == FALSE)
+        		{
+        		  if($this->form_validation->error_string()!="")
+        			  $this->session->set_flashdata("message", '<div class="alert alert-warning alert-dismissible" role="alert">
+                                        <i class="fa fa-warning"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Warning!</strong> '.$this->form_validation->error_string().'
+                                    </div>');
+        		}
+        		else
+        		{
+
+                    $this->load->model("common_model");
+                    $array = array(
+                     "id_sales"=>$this->input->post("id_sales"),
+                    "id_toko"=>$this->input->post("id_toko"),
+                    "jam_akhir"=>$this->input->post("jam_akhir"),
+                    "tanggal"=>$this->input->post("tanggal"),
+
+                    );
+                    $this->common_model->data_insert("target_kunjungan",$array);
+
+                    $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
+                                        <i class="fa fa-check"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
+                                    </div>');
+                    redirect('admin/taskkunjungan');
+              	}
+            }
+
+                $this->load->model("kunjungan_model");
+                $this->load->model("Sales_model");
+                $data["target"] = $this->kunjungan_model->target_kunjungan();
+                $data['namas'] = $this->Sales_model->data_sales();
+                $data['tokos'] = $this->Sales_model->data_toko();
+                $this->load->view("admin/kunjungan/addtarget",$data);
+        }
+        else
+        {
+            redirect('admin');
+        }
+    }
+
+    public function edit_target($id){
+    if(_is_user_login($this)){
+
+            if(isset($_POST))
+            {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('id_sales', 'Nama Sales', 'trim|required');
+                $this->form_validation->set_rules('id_toko', 'Toko', 'trim|required');
+                $this->form_validation->set_rules('jam_akhir', 'Batas Jam', 'trim|required');
+                $this->form_validation->set_rules('tanggal', 'tanggal', 'trim|required');
+
+                if ($this->form_validation->run() == FALSE)
+        		{
+        		  if($this->form_validation->error_string()!="")
+        			  $this->session->set_flashdata("message", '<div class="alert alert-warning alert-dismissible" role="alert">
+                                        <i class="fa fa-warning"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Warning!</strong> '.$this->form_validation->error_string().'
+                                    </div>');
+        		}
+        		else
+        		{
+
+                    $this->load->model("common_model");
+                    $array = array(
+                    "id_sales"=>$this->input->post("id_sales"),
+                    "id_toko"=>$this->input->post("id_toko"),
+                    "jam_akhir"=>$this->input->post("jam_akhir"),
+                    "tanggal"=>$this->input->post("tanggal"),
+
+                    );
+                    $this->common_model->data_update("target_kunjungan",$array,array("id_target_kunjungan"=>$id));
+
+                    $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
+                                        <i class="fa fa-check"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
+                                    </div>');
+                    redirect("admin/taskkunjungan");
+                }
+
+                $this->load->model("kunjungan_model");
+                $this->load->model("Sales_model");
+                $data["target"]  = $this->kunjungan_model->target_kunjungan_byid($id);
+                $data['namas'] = $this->Sales_model->data_sales();
+                $data['tokos'] = $this->Sales_model->data_toko();
+                $this->load->view("admin/kunjungan/edittarget",$data);
+
+            }
+        }
+         else
+        {
+            redirect('admin');
+        }
+
+    }
+
+
+
+
+    public function hasilkunjungan()
+    {
+        if(_is_user_login($this)){
+
+            $data = array();
+            $this->load->model("Kunjungan_model");
+            $fromdate = date("Y-m-d");
+            $todate = date("Y-m-d");
+            $data['date_range_lable'] = $this->input->post('date_range_lable');
+
+             $filter = "";
+            if($this->input->post("date_range")!=""){
+				$filter = $this->input->post("date_range");
+			    $dates = explode(",",$filter);
+                $fromdate =  date("Y-m-d", strtotime($dates[0]));
+                $todate =  date("Y-m-d", strtotime($dates[1]));
+                $filter = " and hasil_kunjungan.waktu >= '".$fromdate."' and hasil_kunjungan.waktu <= '".$todate."' ";
+            }
+            $data["today_kunjungan"] = $this->Kunjungan_model->hasil_kunjungan($filter);
+           //
+           $this->load->view('admin/kunjungan/hasilkun',$data);
 
         }
         else
@@ -515,6 +832,42 @@ public function listretur()
                                       <strong>Sukses!</strong> Barang anda berhasil dihapus...
                                     </div>');
             redirect('admin/listkunjungan');
+        }
+        else
+        {
+            redirect('admin');
+        }
+    }
+
+    public function deletetaskkun($id)
+	{
+	   if(_is_user_login($this)){
+
+            $this->db->delete("target_kunjungan",array("id_target_kunjungan"=>$id));
+            $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert">
+                                        <i class="fa fa-check"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Sukses!</strong> Barang anda berhasil dihapus...
+                                    </div>');
+            redirect('admin/taskkunjungan');
+        }
+        else
+        {
+            redirect('admin');
+        }
+    }
+
+    public function deletehasilkun($id)
+	{
+	   if(_is_user_login($this)){
+
+            $this->db->delete("hasil_kunjungan",array("id_hasil_kunjungan"=>$id));
+            $this->session->set_flashdata("success_req",'<div class="alert alert-success alert-dismissible" role="alert">
+                                        <i class="fa fa-check"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Sukses!</strong> Barang anda berhasil dihapus...
+                                    </div>');
+            redirect('admin/hasilkunjungan');
         }
         else
         {
@@ -682,7 +1035,7 @@ function edit_products($prod_id){
                      "product_name"=>$this->input->post("prod_title"),
                     "category_id"=>$this->input->post("parent"),
                      "product_description"=>$this->input->post("product_description"),
-                    "in_stock"=>$this->input->post("in_stock"),
+                    "in_stock"=>$this->input->post("prod_status"),
                     "price"=>$this->input->post("price"),
                     "unit_value"=>$this->input->post("qty"),
                     "unit"=>$this->input->post("unit")
@@ -983,7 +1336,7 @@ function delete_purchase($id){
                     $array = array(
                     "socity_name"=>$this->input->post("socity_name"),
                     "pincode"=>$this->input->post("pincode"),
-                       "delivery_charge"=>$this->input->post("delivery_charge")
+                    "delivery_charge"=>$this->input->post("delivery_charge")
 
                     );
                     $this->common_model->data_update("socity",$array,array("socity_id"=>$id));
@@ -1023,7 +1376,7 @@ function delete_purchase($id){
     function registers(){
         if(_is_user_login($this)){
             $this->load->model("product_model");
-            $users = $this->product_model->get_all_users();
+            $users = $this->product_model->get_all_sales();
             $this->load->view("admin/allusers",array("users"=>$users));
         }
          else
@@ -1031,6 +1384,119 @@ function delete_purchase($id){
             redirect('admin');
         }
     }
+
+    public function addusers()
+    {
+        if(_is_user_login($this)){
+         if(isset($_POST))
+            {
+                $this->load->library('form_validation');
+                 $this->form_validation->set_rules('user_name', 'Nama Lengkap', 'trim|required');
+                $this->form_validation->set_rules('user_mobile', 'No Hp', 'trim|numeric|required|is_unique[registers.user_phone]');
+                $this->form_validation->set_rules('user_email', 'Email', 'trim|required|valid_email|is_unique[registers.user_email]');
+                 $this->form_validation->set_rules('password', 'Password', 'trim|required');
+
+                if ($this->form_validation->run() == FALSE)
+        		{
+        		  if($this->form_validation->error_string()!="")
+        			  $this->session->set_flashdata("message", '<div class="alert alert-warning alert-dismissible" role="alert">
+                                        <i class="fa fa-warning"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Warning!</strong> '.$this->form_validation->error_string().'
+                                    </div>');
+
+        		}
+        		else
+        		{
+                    $this->load->model("common_model");
+                    $array = array(
+                                            "user_phone"=>$this->input->post("user_mobile"),
+                                            "user_fullname"=>$this->input->post("user_name"),
+                                            "user_email"=>$this->input->post("user_email"),
+                                            "user_password"=>md5($this->input->post("password")),
+                                            "status" => 1
+
+                    );
+                     if($_FILES["prof_img"]["size"] > 0){
+                        $config['upload_path']          = './uploads/profile/';
+                        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+                        $this->load->library('upload', $config);
+
+                        if ( ! $this->upload->do_upload('prof_img'))
+                        {
+                                $error = array('error' => $this->upload->display_errors());
+                        }
+                        else
+                        {
+                            $img_data = $this->upload->data();
+                            $array["user_image"]=$img_data['file_name'];
+                        }
+
+                   }
+                    $this->common_model->data_insert("registers",$array);
+
+                    $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
+                                        <i class="fa fa-check"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
+                                    </div>');
+                    redirect('admin/registers');
+              	}
+            }
+	            $this->load->model("product_model");
+                $users = $this->product_model->get_all_sales();
+                $this->load->view("admin/addusers",array("users"=>$users));
+        }
+        else
+        {
+            redirect('admin');
+        }
+    }
+
+    function edit_password($id){
+        if(_is_user_login($this)){
+            if(isset($_POST))
+            {
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('user_password', 'Password', 'trim|required');
+
+                if ($this->form_validation->run() == FALSE)
+        		{
+        		  if($this->form_validation->error_string()!="")
+        			  $this->session->set_flashdata("message", '<div class="alert alert-warning alert-dismissible" role="alert">
+                                        <i class="fa fa-warning"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Warning!</strong> '.$this->form_validation->error_string().'
+                                    </div>');
+        		}
+        		else
+        		{
+
+                    $this->load->model("common_model");
+                    $array = array(
+                    "user_password"=>md5($this->input->post("user_password")),
+
+                    );
+                    $this->common_model->data_update("registers",$array,array("user_id"=>$id));
+
+                    $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">
+                                        <i class="fa fa-check"></i>
+                                      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                      <strong>Sukses!</strong> Permintaan anda berhasil ditambahkan...
+                                    </div>');
+                    redirect("admin/registers");
+                }
+
+                $this->load->model("product_model");
+                $data["registers"]  = $this->product_model->get_registers_by_id($id);
+                $this->load->view("admin/edit_password",$data);
+        }
+         else
+        {
+            redirect('admin');
+        }
+    }
+}
 
     function edit_users($id){
         if(_is_user_login($this)){
@@ -1040,6 +1506,7 @@ function delete_purchase($id){
                 $this->form_validation->set_rules('user_fullname', 'user_fullname', 'trim|required');
                 $this->form_validation->set_rules('user_phone', 'user_phone', 'trim|required');
                 $this->form_validation->set_rules('user_email', 'user_email', 'trim|required');
+                $this->form_validation->set_rules('user_password', 'Password', 'trim|required');
 
                 if ($this->form_validation->run() == FALSE)
         		{
@@ -1057,9 +1524,29 @@ function delete_purchase($id){
                     $array = array(
                     "user_fullname"=>$this->input->post("user_fullname"),
                     "user_phone"=>$this->input->post("user_phone"),
-                    "user_email"=>$this->input->post("user_email")
+                    "user_email"=>$this->input->post("user_email"),
+                    "user_password"=>md5($this->input->post("user_password")),
+                    "status"=>$this->input->post("prod_status")
 
                     );
+                    if($_FILES["prof_img"]["size"] > 0){
+                        $config['upload_path']          = './uploads/profile/';
+                        $config['allowed_types']        = 'gif|jpg|png|jpeg';
+                        $this->load->library('upload', $config);
+
+                        if ( ! $this->upload->do_upload('prof_img'))
+                        {
+                                $error = array('error' => $this->upload->display_errors());
+                        }
+                        else
+                        {
+                            $img_data = $this->upload->data();
+                            $array["user_image"]=$img_data['file_name'];
+                        }
+
+                   }
+
+
                     $this->common_model->data_update("registers",$array,array("user_id"=>$id));
 
                     $this->session->set_flashdata("message",'<div class="alert alert-success alert-dismissible" role="alert">

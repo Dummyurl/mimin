@@ -3,10 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Kategori</title>
+    <title>Admin | Retur</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/plugins/daterangepicker/daterangepicker-bs3.css"); ?>">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/bootstrap/css/bootstrap.min.css"); ?>" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -40,13 +42,12 @@
                 <!-- Content Header (Page header) -->
                  <section class="content-header">
                     <h1>
-                         <?php echo $this->lang->line("All Caegories");?>
+                         <?php echo $this->lang->line("Retur");?>
                         <small> <?php echo $this->lang->line("Preview");?></small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line("Home");?></a></li>
-                        <li><a href="#"> <?php echo $this->lang->line("Categories");?></a></li>
-                        <li class="active"> <?php echo $this->lang->line("All Categories");?></li>
+                        <li><a href="#"> <?php echo $this->lang->line("Retur");?></a></li>
                     </ol>
                 </section>
 
@@ -58,36 +59,40 @@
                                     echo $this->session->flashdata('success_req'); ?>
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    <h3 class="box-title"> <?php echo $this->lang->line("All Categories");?></h3>
+                                    <h3 class="box-title"> <?php echo $this->lang->line("Retur");?></h3>
                                     <div class="pull-right">
-                                    <a href="addcategories" class="btn btn-primary">Tambah Data</a>
+                                    <a href="addretur" class="btn btn-primary">Input Retur</a>
                                     </div>
                                 </div><!-- /.box-header -->
+
                                 <div class="box-body table-responsive">
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-
-                                                <th>  <?php echo $this->lang->line("Title");?></th>
-                                                <th><?php echo $this->lang->line("Parent Category :");?>  </th>
-                                                <th> <?php echo $this->lang->line("Image");?></th>
-
-                                                <th> <?php echo $this->lang->line("Status");?></th>
+                                                <th class="text-center"> <?php echo $this->lang->line("Kun ID");?> </th>
+                                                <th><?php echo $this->lang->line("Product Name");?>  </th>
+                                                <th><?php echo $this->lang->line("Sales Name");?>  </th>
+                                                <th><?php echo $this->lang->line("Nama Toko");?>  </th>
+                                                <th> <?php echo $this->lang->line("Jumlah");?></th>
+                                                <th> <?php echo $this->lang->line("Total Harga");?></th>
+                                                 <th> <?php echo $this->lang->line("Keterangan");?></th>
                                                 <th class="text-center" style="width: 100px;"> <?php echo $this->lang->line("Action");?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           <?php foreach($allcat as $acat){ ?>
+                                           <?php foreach($today_retur as $acat){ ?>
                                             <tr>
+                                                <td class="text-center"><?php echo $acat->id_retur; ?></td>
+                                                 <td><?php echo $acat->nama_produk; ?></td>
+                                                <td><?php echo $acat->nama_sales; ?></td>
+                                                <td><?php echo $acat->nama_toko; ?></td>
+                                                <td><?php echo $acat->jumlah; ?></td>
+                                                 <td><?php echo $acat->total_harga; ?></td>
+                                                <td><?php echo $acat->keterangan; ?></td>
 
-                                                 <td><?php echo $acat->title; ?></td>
-                                                <td><?php   if($acat->prtitle!=""){  echo $acat->prtitle; }else { echo "________"; }?></td>
-                                                 <td><?php if($acat->image!=""){ ?><div class="cat-img" style="width: 250px; height: 50px;"><img width="100%" height="100%" src="<?php echo $this->config->item('base_url').'uploads/category/'.$acat->image; ?>" /></div> <?php } ?></td>
-
-                                                <td><?php if($acat->status == "1"){ ?><span class="label label-success"> <?php echo $this->lang->line("Active");?></span><?php } else { ?><span class="label label-danger"> <?php echo $this->lang->line("Deactive");?></span><?php } ?></td>
-                                                <td class="text-center"><div class="btn-group">
-                                                        <?php echo anchor('admin/editcategory/'.$acat->id, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
-                                                        <?php echo anchor('admin/deletecat/'.$acat->id, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>
+                                                <td class="text-center"><div class="btn">
+                                                    <?php echo anchor('admin/editretur/'.$acat->id_retur, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
+                                                        <?php echo anchor('admin/deleteretur/'.$acat->id_retur, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>
 
                                                     </div>
                                                 </td>
@@ -104,23 +109,65 @@
             </aside><!-- /.right-side -->
         </div><!-- /.content-wrapper -->
 
-     <?php  $this->load->view("admin/common/common_footer"); ?>
-
-
-      <!-- Add the sidebar's background. This div must be placed
+       <?php  $this->load->view("admin/common/common_footer"); ?>
+ <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 
     <!-- jQuery 2.1.4 -->
     <script src="<?php echo base_url($this->config->item("theme_admin")."/plugins/jQuery/jQuery-2.1.4.min.js"); ?>"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="<?php echo base_url($this->config->item("theme_admin")."/plugins/daterangepicker/daterangepicker.js"); ?>"></script>
+    <script>
+    $(function () {
+        $('#daterange-btn').daterangepicker(
+            {
+              ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+              },
+              startDate: moment().subtract(29, 'days'),
+              endDate: moment()
+            },
+        function (start, end) {
+          $('#reportrange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+          $('#date_range_lable').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+          $('#date_range_field').val(start.format('YYYY-MM-D')+','+end.format('YYYY-MM-D'));
+        }
+        );
+    });
+    </script>
     <!-- jQuery UI 1.11.4 -->
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.1/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.1/js/buttons.flash.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.1/js/buttons.print.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.2.1/js/buttons.html5.min.js"></script>
+    <script>
+    $(document).ready(function() {
+    $('.data_table').DataTable( {
+        dom: 'Bfrtip',
+        "order": [[ 0, "desc" ]],
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} );
+    </script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
       $.widget.bridge('uibutton', $.ui.button);
     </script>
     <!-- Bootstrap 3.3.5 -->
+ <!-- Bootstrap 3.3.5 -->
     <script src="<?php echo base_url($this->config->item("theme_admin")."/bootstrap/js/bootstrap.min.js"); ?>"></script>
     <!-- DataTables -->
     <script src="<?php echo base_url($this->config->item("theme_admin")."/plugins/datatables/jquery.dataTables.min.js"); ?>"></script>
@@ -140,24 +187,7 @@
           "info": true,
           "autoWidth": true,
         });
-        $("body").on("change",".tgl_checkbox",function(){
-            var table = $(this).data("table");
-            var status = $(this).data("status");
-            var id = $(this).data("id");
-            var id_field = $(this).data("idfield");
-            var bin=0;
-                                         if($(this).is(':checked')){
-                                            bin = 1;
-                                         }
-            $.ajax({
-              method: "POST",
-              url: "<?php echo site_url("admin/change_status"); ?>",
-              data: { table: table, status: status, id : id, id_field : id_field, on_off : bin }
-            })
-              .done(function( msg ) {
-                alert(msg);
-              });
-        });
+
       });
     </script>
   </body>

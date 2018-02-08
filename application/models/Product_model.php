@@ -85,18 +85,19 @@ class Product_model extends CI_Model{
             where 1 and price_id = '".$price_id."'");
             return $q->row();
       }
-      function get_socity_by_id($id){
+      function get_socity_by_id($id)
+      {
         $q = $this->db->query("Select * from socity
             where 1 and socity_id = '".$id."'");
             return $q->row();
       }
       function get_socities(){
 
-        $q = $this->db->query("Select * from socity");
+         $q = $this->db->query("Select * from socity");
             return $q->result();
       }
       function get_sale_by_user($user_id){
-            $q = $this->db->query("Select * from sale where user_id = '".$user_id."' and status != 3 ORDER BY sale_id DESC");
+            $q = $this->db->query("Select * from sale where user_id = '".$user_id."' and status != 3 ORDER BY sale_id ASC");
             return $q->result();
       }
       function get_sale_orders($filter=""){
@@ -104,7 +105,7 @@ class Product_model extends CI_Model{
             inner join registers on registers.user_id = sale.user_id
             left outer join user_location on user_location.location_id = sale.location_id
             left outer join socity on socity.socity_id = user_location.socity_id
-            where 1 ".$filter." ORDER BY sale_id DESC";
+            where 1 ".$filter." ORDER BY sale_id ASC";
             $q = $this->db->query($sql);
             return $q->result();
       }
@@ -132,13 +133,57 @@ class Product_model extends CI_Model{
         return $q->result();
       }
 
-      function get_all_users(){
-         $sql = "Select registers.*, ifnull(sale_order.total_amount, 0) as total_amount,total_orders  from registers
-
-            left outer join (Select sum(total_amount) as total_amount, count(sale_id) as total_orders, user_id from sale group by user_id) as sale_order on sale_order.user_id = registers.user_id
-            where 1 order by user_id DESC";
+      function get_all_users($tahun,$bulan){
+        $where = "";
+        if (isset($tahun)) {
+            $where = "WHERE year = $tahun ";
+            if (isset($bulan)) {
+                $where = "WHERE year = $tahun AND bulan = $bulan";
+            }
+        }
+        $sql = "Select registers.*, ifnull(sale_order.total_amount, 0) as total_amount,total_orders,year,month
+                from registers
+                left outer join (
+                    Select sum(total_amount) as total_amount,DATE_FORMAT(on_date,'%m') as bulan,DATE_FORMAT(on_date,'%M %Y') as month,DATE_FORMAT(on_date,'%Y') as year, count(sale_id) as total_orders, user_id
+                    from sale
+                    group by user_id,DATE_FORMAT(on_date,'%Y-%m')
+                ) as sale_order on sale_order.user_id = registers.user_id
+                 $where
+                order by year DESC";
             $q = $this->db->query($sql);
+            return $q->result();
+      }
+      function get_all_sales(){
+         $sql = "Select registers.*, ifnull(sale_order.total_amount, 0) as total_amount,total_orders
+                from registers
+                left outer join (
+                    Select sum(total_amount) as total_amount, count(sale_id) as total_orders, user_id
+                    from sale
+                    group by user_id
+                ) as sale_order on sale_order.user_id = registers.user_id
+                order by registers.user_id DESC";
+            $q = $this->db->query($sql);
+            return $q->result();
+      }
 
+      function get_all_kunjungan($tahun,$bulan){
+          $where = "";
+        if (isset($tahun)) {
+            $where = "WHERE year = $tahun ";
+            if (isset($bulan)) {
+                $where = "WHERE year = $tahun AND bulan = $bulan";
+            }
+        }
+         $sql = "Select registers.*,total_orders,year,month,target
+                from registers
+                left join (
+                    Select  DATE_FORMAT(tanggal,'%M %Y') as month,DATE_FORMAT(tanggal,'%m') as bulan,DATE_FORMAT(tanggal,'%Y') as year, count(id_target_kunjungan) as target,SUM(nilai) as total_orders,id_sales
+                    from target_kunjungan
+                    group by id_sales,DATE_FORMAT(tanggal,'%Y-%m')
+                ) as sale_order on sale_order.id_sales = registers.user_id
+                $where
+                order by year DESC";
+            $q = $this->db->query($sql);
             return $q->result();
       }
        function get_registers_by_id($id){
@@ -146,5 +191,13 @@ class Product_model extends CI_Model{
             where 1 and user_id = '".$id."'");
             return $q->row();
       }
+      function data_tahun()
+        {
+                $this->db->select("DATE_FORMAT(on_date,'%Y') as thn");
+                $this->db->from("sale");
+                $this->db->group_by('DATE_FORMAT(on_date,"%Y")');
+                $query = $this->db->get();
+                return $query->result();
+        }
 }
 ?>

@@ -152,15 +152,14 @@ class Googlemaps {
 	var $placesAutocompleteBoundsMap= FALSE;					// An alternative to setting the SW and NE bounds is to use the bounds of the current viewport. If set to TRUE, the bounds will be set to the viewport of the visible map, even if dragged or zoomed
 	var $placesAutocompleteOnChange	= '';						// The JavaScript action to perform when a place is selected
 
-	function Googlemaps($config = array())
-	{
-		if (count($config) > 0)
-		{
-			$this->initialize($config);
-		}
-
-		log_message('debug', "Google Maps Class Initialized");
-	}
+	function __construct($config = array())
+{
+    if (count($config) > 0)
+    {
+        $this->initialize($config);
+    }
+    log_message('debug', "Google Maps Class Initialized");
+}
 
 	function initialize($config = array())
 	{

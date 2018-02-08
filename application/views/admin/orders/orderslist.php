@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Pemesanan</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
      <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/plugins/daterangepicker/daterangepicker-bs3.css"); ?>">
@@ -61,7 +61,7 @@
                         <input type="hidden" name="date_range" id="date_range_field" />
                         <input type="hidden" name="date_range_lable" id="date_range_lable" />
                     <div class="form-group">
-                        <label> <?php echo $this->lang->line("Date range button:");?></label>
+
                         <div class="input-group">
                           <button class="btn btn-default" type="button" id="daterange-btn">
                             <i class="fa fa-calendar"></i> <span id="reportrange"><?php if(!empty($date_range_lable)){ echo $date_range_lable; } else { echo date("M , d Y"); } ?></span>
@@ -74,7 +74,8 @@
                     </form>
 
             <div class="box-body table-responsive">
-                                    <table id="example1" class="table table-bordered table-striped">
+
+            <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th> <?php echo $this->lang->line("ID");?></th>
@@ -94,7 +95,6 @@
           foreach($today_orders as $order)
           {
             ?>
-
                 <tr>
                     <td><?php echo $order->sale_id; ?></td>
                     <td><?php echo $order->user_fullname; ?></td>
@@ -102,7 +102,7 @@
                     <td><?php echo $order->user_phone; ?></td>
                     <td><?php echo $order->on_date; ?></td>
                     <td><?php echo date("H:i A", strtotime($order->delivery_time_from))." - ".date("H:i A", strtotime($order->delivery_time_to)); ?></td>
-                    <td><?php echo "Rp. ".$order->total_amount; ?></td>
+                    <td><?php echo "Rp. ".number_format($order->total_amount, 0, ',', '.'); ?> </td>
                     <td><?php if($order->status == 0){
                         echo "<span class='label label-default'>Pending</span>";
                     }else if($order->status == 1){
@@ -197,9 +197,7 @@
 } );
     </script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-      $.widget.bridge('uibutton', $.ui.button);
-    </script>
+
     <!-- Bootstrap 3.3.5 -->
  <!-- Bootstrap 3.3.5 -->
     <script src="<?php echo base_url($this->config->item("theme_admin")."/bootstrap/js/bootstrap.min.js"); ?>"></script>
@@ -217,6 +215,7 @@
           "paging": true,
           "lengthChange": false,
           "searching": true,
+          "order": [[ 0, "desc" ]],
           "ordering": true,
           "info": true,
           "autoWidth": true,
@@ -224,5 +223,6 @@
 
       });
     </script>
+
   </body>
 </html>

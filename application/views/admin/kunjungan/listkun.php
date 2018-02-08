@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Laporan Kunjungan</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -42,13 +42,13 @@
                 <!-- Content Header (Page header) -->
                  <section class="content-header">
                     <h1>
-                         <?php echo $this->lang->line("Daftar Kunjungan");?>
+                         <?php echo $this->lang->line("Laporan Kunjungan");?>
                         <small> <?php echo $this->lang->line("Preview");?></small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line("Home");?></a></li>
                         <li><a href="#"> <?php echo $this->lang->line("Kunjungan");?></a></li>
-                        <li class="active"> <?php echo $this->lang->line("Daftar Kunjungan");?></li>
+                        <li class="active"> <?php echo $this->lang->line("Laporan Kunjungan");?></li>
                     </ol>
                 </section>
 
@@ -60,12 +60,11 @@
                                     echo $this->session->flashdata('success_req'); ?>
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    <h3 class="box-title"> <?php echo $this->lang->line("Daftar Kunjungan");?></h3> <br>
+                                    <h3 class="box-title"> <?php echo $this->lang->line("Laporan Kunjungan");?></h3> <br>
+
                     <form action="" method="post">
                         <input type="hidden" name="date_range" id="date_range_field" />
                         <input type="hidden" name="date_range_lable" id="date_range_lable" />
-
-
                         <div class="input-group">
                           <button class="btn btn-default" type="button" id="daterange-btn">
                             <i class="fa fa-calendar"></i> <span id="reportrange"><?php if(!empty($date_range_lable)){ echo $date_range_lable; } else { echo date("M , d Y"); } ?></span>
@@ -82,22 +81,22 @@
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th class="text-center"> <?php echo $this->lang->line("Kun ID");?> </th>
+
                                                 <th>  <?php echo $this->lang->line("Sales Name");?></th>
                                                 <th><?php echo $this->lang->line("Toko");?>  </th>
                                                 <th><?php echo $this->lang->line("Pemilik");?>  </th>
                                                 <th><?php echo $this->lang->line("Alamat");?>  </th>
                                                 <th><?php echo $this->lang->line("Waktu");?>  </th>
-                                                <th> <?php echo $this->lang->line("Image");?></th>
+                                                <th> <?php echo $this->lang->line("Photo");?></th>
                                                 <th> <?php echo $this->lang->line("Keterangan");?></th>
-                                                 <th> <?php echo $this->lang->line("Status");?></th>
+
                                                 <th class="text-center" style="width: 100px;"> <?php echo $this->lang->line("Action");?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                            <?php foreach($today_kunjungan as $acat){ ?>
                                             <tr>
-                                                <td class="text-center"><?php echo $acat->id_kunjungan; ?></td>
+
                                                  <td><?php echo $acat->sales; ?></td>
                                                 <td><?php echo $acat->toko; ?></td>
                                                 <td><?php echo $acat->pemilik; ?></td>
@@ -105,8 +104,7 @@
                                                  <td><?php echo $acat->waktu; ?></td>
                                                  <td><a href="<?php echo $this->config->item('base_url').'uploads/kunjungan/'.$acat->image; ?>"target="_blank"><?php if($acat->image!=""){ ?><div class="cat-img" style="width: 70px; height: 50px;"><img width="100%" height="100%" src="<?php echo $this->config->item('base_url').'uploads/kunjungan/'.$acat->image; ?>" /></div> <?php } ?></a></td>
                                                 <td><?php echo $acat->keterangan; ?></td>
-                                                <td><?php if($acat->status == "1"){ ?><span class="label label-success"> <?php echo $this->lang->line("Terkunjungi");?></span><?php } else { ?><span class="label label-danger"> <?php echo $this->lang->line("Belum Terkunjungi");?></span><?php } ?></td>
-                                                <td class="text-center"><div class="btn">
+                                                 <td class="text-center"><div class="btn">
                                                         <?php echo anchor('admin/deletekun/'.$acat->id_kunjungan, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>
 
                                                     </div>
@@ -129,8 +127,7 @@
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-
-    <!-- jQuery 2.1.4 -->
+<!-- jQuery 2.1.4 -->
     <script src="<?php echo base_url($this->config->item("theme_admin")."/plugins/jQuery/jQuery-2.1.4.min.js"); ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
     <script src="<?php echo base_url($this->config->item("theme_admin")."/plugins/daterangepicker/daterangepicker.js"); ?>"></script>
@@ -156,12 +153,13 @@
         }
         );
     });
+</script>
+
     </script>
     <!-- jQuery UI 1.11.4 -->
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.1/js/dataTables.buttons.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.2.1/js/buttons.flash.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.2.1/js/buttons.print.min.js"></script>
     <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
 <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
@@ -178,9 +176,7 @@
 } );
     </script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-      $.widget.bridge('uibutton', $.ui.button);
-    </script>
+
     <!-- Bootstrap 3.3.5 -->
  <!-- Bootstrap 3.3.5 -->
     <script src="<?php echo base_url($this->config->item("theme_admin")."/bootstrap/js/bootstrap.min.js"); ?>"></script>
@@ -198,6 +194,7 @@
           "paging": true,
           "lengthChange": false,
           "searching": true,
+          "order": [[ 0, "desc" ]],
           "ordering": true,
           "info": true,
           "autoWidth": true,

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Edit Sales</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -72,7 +72,27 @@
                                         <div class="form-group">
                                             <label class=""><?php echo $this->lang->line("Email");?> <span class="text-danger"><?php echo $this->lang->line("*");?></span></label>
                                             <input type="text" name="user_email"  value="<?php echo $registers->user_email; ?>" class="form-control" placeholder="Latitude"/>
-                                    </div><!-- /.box-body -->
+                                         </div><!-- /.box-body -->
+
+                                         <div class="form-group">
+                                            <label><?php echo $this->lang->line("Product Image:");?>  </label>
+                                            <input type="file" name="prof_img" />
+                                        </div>
+                                          <div class="form-group">
+                                            <div class="radio-inline">
+                                                <label>
+                                                    <input type="radio" name="prod_status" id="optionsRadios1" value="1"  <?php if($registers->status == 1){ echo "checked"; } ?> />
+                                                    <?php echo $this->lang->line("Active");?>
+                                                </label>
+                                            </div>
+                                            <div class="radio-inline">
+                                                <label>
+                                                    <input type="radio" name="prod_status" id="optionsRadios2" value="0" <?php if($registers->status == 0){ echo "checked"; } ?> />
+                                                    <?php echo $this->lang->line("Deactive");?>
+                                                </label>
+                                            </div>
+                                            <p class="help-block"><?php echo $this->lang->line("Status Sales.");?></p>
+                                        </div>
                                     <div class="box-footer">
                                         <input type="submit" class="btn btn-primary" name="addcatg" value="Simpan" />
 

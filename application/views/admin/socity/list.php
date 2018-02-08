@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Daftar Toko</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -105,7 +105,7 @@
                                                 <th><?php echo $this->lang->line("Alamat");?></th>
                                                 <th><?php echo $this->lang->line("Latitude");?></th>
                                                 <th><?php echo $this->lang->line("Longitude");?></th>
-                                                <th><?php echo $this->lang->line("Delivery Charge");?></th>
+
                                                 <th class="text-center" style="width: 100px;"><?php echo $this->lang->line("Action");?></th>
                                             </tr>
                                         </thead>
@@ -116,7 +116,7 @@
                                                 <td><?php echo $socity->pincode; ?></td>
                                                 <td><?php echo $socity->latitude; ?></td>
                                                 <td><?php echo $socity->longitude; ?></td>
-                                                  <td><?php echo $socity->delivery_charge; ?></td>
+
                                                 <td class="text-center"><div class="btn-group">
                                                         <?php echo anchor('admin/edit_socity/'.$socity->socity_id, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
                                                         <?php echo anchor('admin/delete_socity/'.$socity->socity_id, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>

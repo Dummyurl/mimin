@@ -173,9 +173,9 @@
     <script src="//cdn.datatables.net/buttons/1.2.1/js/buttons.flash.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.2.1/js/buttons.print.min.js"></script>
     <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-<script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.2.1/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.2.1/js/buttons.html5.min.js"></script>
     <script>
     $(document).ready(function() {
     $('.data_table').DataTable( {
@@ -187,9 +187,7 @@
 } );
     </script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-      $.widget.bridge('uibutton', $.ui.button);
-    </script>
+
     <!-- Bootstrap 3.3.5 -->
     <script src="<?php echo base_url($this->config->item("theme_admin")."/bootstrap/js/bootstrap.min.js"); ?>"></script>
 

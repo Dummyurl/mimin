@@ -2,7 +2,7 @@
         <!-- Logo -->
         <a href="<?php echo site_url(_get_user_redirect($this)); ?>" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>G</b></span>
+          <span class="logo-mini"><b>UJ</b></span>
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg"><b> <?php echo $this->lang->line("site_title");?></b></span>
         </a>
@@ -29,19 +29,19 @@
                   </li>
                 </ul>
               </li>
-              
+
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="<?php echo base_url("img/user2-160x160.jpg"); ?>" class="user-image" alt="User Image">
                   <span class="hidden-xs"><?php echo _get_current_user_name($this); ?></span>
                 </a>
-                
+
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
                     <img src="<?php echo base_url("img/user2-160x160.jpg"); ?>" class="img-circle" alt="User Image">
                     <p>
-                       
+
                     </p>
                   </li>
                   <!-- Menu Body -->
@@ -58,7 +58,7 @@
                   </li>
                   <!-- Menu Footer-->
                   <li class="user-footer">
-                    <div class="pull-left">  
+                    <div class="pull-left">
                          <a href="<?php echo site_url("users/edit_user/"._get_current_user_id($this)); ?>" ><i class="btn btn-default btn-flat"> Edit Profile </i></a>
                     </div>
                     <div class="pull-right">
@@ -66,7 +66,7 @@
                     </div>
                   </li>
                 </ul>
-              </li> 
+              </li>
             </ul>
           </div>
         </nav>

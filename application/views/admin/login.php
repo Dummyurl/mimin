@@ -44,15 +44,15 @@
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           <div class="row">
-            
+
             <div class="col-xs-12">
               <button type="submit" class="btn btn-primary btn-block btn-flat"><?php echo $this->lang->line('Sign In')?></button>
             </div><!-- /.col -->
           </div>
         </form>
 
-      
-         
+
+
 
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->

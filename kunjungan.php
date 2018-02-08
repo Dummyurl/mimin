@@ -12,6 +12,7 @@
 
 	class emp{}
 
+	$user_id = $_POST['user_id'];
 	$sales = urldecode($_POST['sales']);
 	$toko = $_POST['toko'];
     $pemilik = $_POST['pemilik'];
@@ -32,7 +33,7 @@
 		// sesuiakan ip address laptop/pc atau URL server
 		$actualpath = "$path";
 
-		$query = mysqli_query($con, "INSERT INTO Kunjungan (image,toko,pemilik,alamat,sales,keterangan) VALUES ('$image_name','$toko','$pemilik','$alamat','$sales','$keterangan')");
+		$query = mysqli_query($con, "INSERT INTO kunjungan (image,toko,pemilik,alamat,sales,keterangan,uid) VALUES ('$image_name','$toko','$pemilik','$alamat','$sales','$keterangan',$user_id)");
 
 		if ($query){
 			file_put_contents($path,base64_decode($image));

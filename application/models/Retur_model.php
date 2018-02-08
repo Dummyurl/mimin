@@ -14,5 +14,11 @@ class Retur_model extends CI_Model{
             return $q->result();
       }
 
+      function get_retur_by_id($id){
+        $q = $this->db->query("Select * from retur
+            where 1 and id_retur = '".$id."' limit 1");
+            return $q->row();
+      }
+
 }
 ?>

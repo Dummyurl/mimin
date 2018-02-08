@@ -22,8 +22,9 @@ class Api extends CI_Controller {
             $latitude = $this->uri->segment(3);
             $longitude = $this->uri->segment(4);
             $user_id = $this->uri->segment(5);
+            $now = $this->now();
 
-            $this->Common_model->data_update("registers",["latitude"=>$latitude,"longitude"=>$longitude],["user_id"=>$user_id]);
+            $this->Common_model->data_update("registers",["latitude"=>$latitude,"longitude"=>$longitude,"waktu"=>$now],["user_id"=>$user_id]);
 
         }
 
@@ -33,9 +34,36 @@ class Api extends CI_Controller {
             $longitude = $this->uri->segment(4);
             $nama_sales = urldecode($this->uri->segment(5));
             $uid = $this->uri->segment(6);
+            $now = $this->now();
+
 
             if ($uid !="null" )
             {
+                $target = $this->Common_model->data_sales($this->now(),$uid);
+                foreach ($target as $terget) {
+                    $id_target_kunjungan = $terget->id_target_kunjungan;
+                    $nilai = $terget->nilai;
+                    $destLat = $terget->latitude;
+                    $destLon = $terget->longitude;
+                    $tanggal = $terget->tanggal;
+                    $jamselesai=$terget->jam_akhir;
+                    $jarak = $this->Common_model->jarakhitung($latitude,$longitude,$destLat,$destLon);
+                    if($jarak < 100 AND $this->timenow() <= $jamselesai AND $tanggal == $this->datenow())
+                    {
+                        $nilaiSekarang = '1';
+                    }
+                    else if($jarak < 100 AND $this->timenow() > $jamselesai AND $tanggal == $this->datenow())
+                    {
+                        $nilaiSekarang = '0.5';
+                    }
+                    else
+                    {
+                         $nilaiSekarang = "0";
+                    }
+                    if($nilai == 0){
+                        $this->Common_model->data_update("target_kunjungan",["nilai"=>$nilaiSekarang,"waktu_update"=>$now],["id_target_kunjungan"=>$id_target_kunjungan]);
+                    }
+                }
                 $this->Common_model->data_insert("lokasi",["latitude"=>$latitude,"longitude"=>$longitude,"nama_sales"=>$nama_sales,"uid"=>$uid]);
             }
 
@@ -99,11 +127,11 @@ public function signup(){
                                             "user_fullname"=>$this->input->post("user_name"),
                                              "user_email"=>$this->input->post("user_email"),
                                              "user_password"=>md5($this->input->post("password")),
-                                            "status" => 1
+                                            "status" => 0
                                             ));
                     $user_id =  $this->db->insert_id();
                     $data["responce"] = true;
-                    $data["message"] = "User Register Sucessfully..";
+                    $data["message"] = "Berhasil Mendaftar..";
 
                   }
 
@@ -276,7 +304,7 @@ public function login(){
                         if($row->status == "0")
                         {
                                 $data["responce"] = false;
-   			                  $data["error"] = 'Your account currently inactive.Please Contact Admin';
+   			                  $data["error"] = 'Akun Anda Belum Aktif atau dinonaktifkan, Silahkan hubungi admin.';
 
                         }
 
@@ -290,7 +318,7 @@ public function login(){
                     else
                     {
                               $data["responce"] = false;
-   			                  $data["error"] = 'Invalide Username or Passwords';
+   			                  $data["error"] = 'Username atau Password anda salah';
                     }
 
 
@@ -421,9 +449,9 @@ public function login(){
                     "on_date"=>$date,
                     "delivery_time_from"=>$fromtime,
                     "delivery_time_to"=>$totime,
-                   "delivery_address"=>$location->house_no."\n, ".$location->house_no,
+                    "delivery_address"=>$location->house_no."\n, ".$location->house_no,
                     "socity_id" => $location->socity_id,
-                     "delivery_charge" => $location->delivery_charge,
+                    "delivery_charge" => $location->delivery_charge,
                     "location_id" => $location->location_id
                     );
                     $this->load->model("common_model");
@@ -838,7 +866,24 @@ public function login(){
 
     }
     /* End Forgot Password */
-
+    public function now()
+    {
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $hari_ini = date("Y-m-d H:i:s");
+        return $hari_ini;
+    }
+    public function timenow()
+    {
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $hari_ini = date("H:i:s");
+        return $hari_ini;
+    }
+    public function datenow()
+    {
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $hari_ini = date("Y-m-d");
+        return $hari_ini;
+    }
 
 
 

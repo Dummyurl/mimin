@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Tambah Kategori</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -99,7 +99,7 @@
 
                                                    // foreach($data as $d){
                                                     ?>
-                                                     <option value="<?php echo $d->id; ?>"><?php for($i=0; $i<$d->leval; $i++){ echo "_"; } echo $d->title; ?></option>
+                                                     <option value="<?php echo $d->id; ?>"><?php for($i=0; $i<$d->leval; $i++){ echo ""; } echo $d->title; ?></option>
 
                                                      <?php } ?>
                                             </select>

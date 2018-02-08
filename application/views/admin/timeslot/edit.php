@@ -20,7 +20,7 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/dist/css/skins/_all-skins.min.css"); ?>">
-    
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -65,7 +65,7 @@
                                 <form action="" method="post" enctype="multipart/form-data">
                                     <div class="box-body">
                                         <div class="form-group">
-                                                    
+
                                                     <div class="row">
                                                     <label class="col-md-4"><?php echo $this->lang->line("Opening Hour");?></label>
                                                     <label class="col-md-4"><?php echo $this->lang->line("Closing Hour");?></label>
@@ -84,9 +84,9 @@
                                                             <option <?php if(!empty($schedule) && $schedule->time_slot == 20) { echo "selected"; } ?> >20</option>
                                                             <option <?php if(!empty($schedule) && $schedule->time_slot == 25) { echo "selected"; } ?> >25</option>
                                                             <option <?php if(!empty($schedule) && $schedule->time_slot == 30) { echo "selected"; } ?> >30</option>
-                                                            <option <?php if(!empty($schedule) && $schedule->time_slot == 60) { echo "selected"; } ?> >45</option>
-                                                            <option <?php if(!empty($schedule) && $schedule->time_slot == 120) { echo "selected"; } ?> >60</option>
-                                                            
+                                                            <option <?php if(!empty($schedule) && $schedule->time_slot == 45) { echo "selected"; } ?> >45</option>
+                                                            <option <?php if(!empty($schedule) && $schedule->time_slot == 60) { echo "selected"; } ?> >60</option>
+
                                                         </select>
                                                     </div>
 
@@ -96,7 +96,7 @@
 
                                     <div class="box-footer">
                                         <input type="submit" class="btn btn-primary" name="savecat" value="Save" />
-                                       
+
                                     </div>
                                 </form>
                             </div><!-- /.box -->
@@ -106,10 +106,10 @@
                 </section><!-- /.content -->
             </aside><!-- /.right-side -->
         </div><!-- /.content-wrapper -->
-      
-      <?php  $this->load->view("admin/common/common_footer"); ?>  
 
-      
+      <?php  $this->load->view("admin/common/common_footer"); ?>
+
+
       <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
@@ -134,9 +134,9 @@
     <script src="<?php echo base_url($this->config->item("theme_admin")."/dist/js/demo.js"); ?>"></script>
     <script src="<?php echo base_url($this->config->item("theme_admin")."/plugins/datepicker/jquery.timepicker.min.js"); ?>"></script>
        <script>
-   
+
 $(document).ready(function(){
-    
+
 
 $('#morning_from,#morning_to').timepicker({
     timeFormat: 'h:mm p',

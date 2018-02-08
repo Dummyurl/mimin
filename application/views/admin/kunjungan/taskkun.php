@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Target Kunjungan</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/plugins/daterangepicker/daterangepicker-bs3.css"); ?>">
+    <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/plugins/datepicker/datepicker3.css"); ?>">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/bootstrap/css/bootstrap.min.css"); ?>" />
     <!-- Font Awesome -->
@@ -19,6 +20,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/dist/css/AdminLTE.css
     "); ?>">
+
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/dist/css/skins/_all-skins.min.css"); ?>">
@@ -42,12 +44,33 @@
                 <!-- Content Header (Page header) -->
                  <section class="content-header">
                     <h1>
-                         <?php echo $this->lang->line("Retur");?>
+                         <?php echo $this->lang->line("Target Kunjungan");?>
                         <small> <?php echo $this->lang->line("Preview");?></small>
                     </h1>
+                    <form action="" method="post">
+                    <div class="form-group">
+                        <div class="input-group">
+                        <input type="text" name="datepicker" class="btn btn-default" placeholder="--Pilih--" value= "<?php echo $datepicker; ?>"/>
+                        <select class='btn btn-default' id='namasales' name="id_sales">
+                        <option value='0'>--Pilih Sales--</option>
+                         <?php
+                        foreach ($namas as $nama) {
+                            if ($nama->user_id == $id_sales) {
+                                echo "<option selected=selected value='$nama->user_id'>$nama->user_fullname</option>";
+                            }else{
+                                echo "<option value='$nama->user_id'>$nama->user_fullname</option>";
+                            }
+                        } ?>
+                        </select>
+                        <input type="submit" name="filter" class="btn btn-success" value="Filter" />
+                        <a href="" class="btn btn-danger" value="Clear" />Clear</a>
+                        </div>
+                      </div>
+                    </form>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line("Home");?></a></li>
-                        <li><a href="#"> <?php echo $this->lang->line("Retur");?></a></li>
+                        <li><a href="#"> <?php echo $this->lang->line("Kunjungan");?></a></li>
+                        <li class="active"> <?php echo $this->lang->line("Target Kunjungan");?></li>
                     </ol>
                 </section>
 
@@ -59,40 +82,39 @@
                                     echo $this->session->flashdata('success_req'); ?>
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    <h3 class="box-title"> <?php echo $this->lang->line("Retur");?></h3>
+                                    <h3 class="box-title"> <?php echo $this->lang->line("Target Kunjungan");?></h3> <br>
                                     <div class="pull-right">
-                                    <a href="addretur" class="btn btn-primary">Input Retur</a>
+                                    <a href="add_target" class="btn btn-primary">Tambah Data</a>
                                     </div>
+
                                 </div><!-- /.box-header -->
 
                                 <div class="box-body table-responsive">
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th class="text-center"> <?php echo $this->lang->line("Kun ID");?> </th>
-                                                <th><?php echo $this->lang->line("Product Name");?>  </th>
-                                                <th><?php echo $this->lang->line("Sales Name");?>  </th>
-                                                <th><?php echo $this->lang->line("Nama Toko");?>  </th>
-                                                <th> <?php echo $this->lang->line("Jumlah");?></th>
-                                                <th> <?php echo $this->lang->line("Total Harga");?></th>
-                                                 <th> <?php echo $this->lang->line("Keterangan");?></th>
+                                                 <th>  <?php echo $this->lang->line("Sales Name");?></th>
+                                                <th><?php echo $this->lang->line("Toko");?>  </th>
+                                                <th><?php echo $this->lang->line("Batas Jam");?>  </th>
+                                                <th><?php echo $this->lang->line("Date");?>  </th>
+                                                <th><?php echo $this->lang->line("Nilai");?>  </th>
+                                                <th><?php echo $this->lang->line("Waktu Berkunjung");?>  </th>
+
                                                 <th class="text-center" style="width: 100px;"> <?php echo $this->lang->line("Action");?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           <?php foreach($today_retur as $acat){ ?>
+                                           <?php foreach($today_kunjungan as $task){ ?>
                                             <tr>
-                                                <td class="text-center"><?php echo $acat->id_retur; ?></td>
-                                                 <td><?php echo $acat->nama_produk; ?></td>
-                                                <td><?php echo $acat->nama_sales; ?></td>
-                                                <td><?php echo $acat->nama_toko; ?></td>
-                                                <td><?php echo $acat->jumlah; ?></td>
-                                                 <td><?php echo $acat->total_harga; ?></td>
-                                                <td><?php echo $acat->keterangan; ?></td>
-
-                                                <td class="text-center"><div class="btn">
-                                                    <?php echo anchor('admin/editretur/'.$acat->id_retur, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
-                                                        <?php echo anchor('admin/deleteretur/'.$acat->id_retur, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>
+                                                <td><?php echo $task->user_fullname; ?></td>
+                                                <td><?php echo $task->socity_name; ?></td>
+                                                <td><?php echo $task->jam_akhir; ?></td>
+                                                <td><?php echo $task->tanggal; ?></td>
+                                                <td><?php echo $task->nilai; ?></td>
+                                                <td><?php echo $task->waktu_update; ?></td>
+                                                <td class="text-center"><div class="btn-group">
+                                                        <?php echo anchor('admin/edit_target/'.$task->id_target_kunjungan, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
+                                                        <?php echo anchor('admin/deletetaskkun/'.$task->id_target_kunjungan, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>
 
                                                     </div>
                                                 </td>
@@ -114,33 +136,20 @@
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-
-    <!-- jQuery 2.1.4 -->
+<!-- jQuery 2.1.4 -->
     <script src="<?php echo base_url($this->config->item("theme_admin")."/plugins/jQuery/jQuery-2.1.4.min.js"); ?>"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <script src="<?php echo base_url($this->config->item("theme_admin")."/plugins/daterangepicker/daterangepicker.js"); ?>"></script>
-    <script>
-    $(function () {
-        $('#daterange-btn').daterangepicker(
-            {
-              ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-              },
-              startDate: moment().subtract(29, 'days'),
-              endDate: moment()
-            },
-        function (start, end) {
-          $('#reportrange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-          $('#date_range_lable').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-          $('#date_range_field').val(start.format('YYYY-MM-D')+','+end.format('YYYY-MM-D'));
-        }
-        );
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="<?php echo base_url($this->config->item("theme_admin")."/plugins/datepicker/bootstrap-datepicker.js"); ?>"></script>
+
+   <script type="text/javascript">
+$(function() {
+    $('input[name="datepicker"]').datepicker({
+        format: "dd-mm-yyyy",
+        autoclose:true
     });
+});
+</script>
+
     </script>
     <!-- jQuery UI 1.11.4 -->
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
@@ -163,9 +172,7 @@
 } );
     </script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-      $.widget.bridge('uibutton', $.ui.button);
-    </script>
+
     <!-- Bootstrap 3.3.5 -->
  <!-- Bootstrap 3.3.5 -->
     <script src="<?php echo base_url($this->config->item("theme_admin")."/bootstrap/js/bootstrap.min.js"); ?>"></script>
@@ -183,6 +190,7 @@
           "paging": true,
           "lengthChange": false,
           "searching": true,
+          "order": [[ 0, "desc" ]],
           "ordering": true,
           "info": true,
           "autoWidth": true,

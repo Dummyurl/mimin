@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Produk</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -67,13 +67,12 @@
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th class="text-center"><?php echo $this->lang->line("ID");?></th>
+
                                                 <th><?php echo $this->lang->line("Title");?></th>
                                                 <th><?php echo $this->lang->line("Category Name");?></th>
                                                   <th style="width: 290px;"><?php echo $this->lang->line("Product Description");?></th>
                                                 <th><?php echo $this->lang->line("Image");?></th>
                                                 <th><?php echo $this->lang->line("Prices");?></th>
-                                                <th><?php echo $this->lang->line("Stock");?></th>
                                                 <th><?php echo $this->lang->line("Status");?></th>
                                                 <th class="text-center" style="width: 100px;"><?php echo $this->lang->line("Action");?></th>
                                             </tr>
@@ -81,15 +80,14 @@
                                         <tbody>
                                            <?php foreach($products as $product){ ?>
                                             <tr>
-                                                <td class="text-center"><?php echo $product->product_id; ?></td>
+
                                                 <td><?php echo $product->product_name; ?></td>
                                                 <td><?php echo $product->title; ?></td>
                                                  <td><?php echo $product->product_description; ?></td>
                                                 <td><?php if($product->product_image!=""){ ?><div class="cat-img" style="width: 50px; height: 50px;"><img width="100%" height="100%" src="<?php echo $this->config->item('base_url').'uploads/products/'.$product->product_image; ?>" /></div> <?php } ?></td>
                                                 <td>
-                                                <?php echo $product->price." per ".$product->unit_value.$product->unit; ?>
+                                                <?php echo "Rp. ".number_format($product->price, 0, ',', '.')." per ".$product->unit_value." ".$product->unit; ?>
                                                 </td>
-                                                <td><?php echo $product->in_stock; ?></td>
                                                 <td><?php if($product->in_stock >= "1"){ ?><span class="label label-success">In Stock</span><?php } else { ?><span class="label label-danger">Out of Stock</span><?php } ?></td>
                                                 <td class="text-center"><div class="btn-group">
                                                         <?php echo anchor('admin/edit_products/'.$product->product_id, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>

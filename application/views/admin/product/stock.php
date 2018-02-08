@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Stok Barang</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -65,7 +65,7 @@
                                     <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th class="text-center"><?php echo $this->lang->line("ID");?></th>
+
                                                 <th><?php echo $this->lang->line("Title");?></th>
                                                 <th><?php echo $this->lang->line("Unit");?></th>
                                                 <th><?php echo $this->lang->line("Stock");?></th>
@@ -76,7 +76,7 @@
                                         <tbody>
                                            <?php foreach($stock_list as $product){ ?>
                                             <tr>
-                                                <td class="text-center"><?php echo $product->product_id; ?></td>
+
                                                 <td><?php echo $product->product_name; ?></td>
                                                 <td><?php echo $product->unit; ?></td>
                                                 <td><?php echo $product->in_stock; ?> </td>

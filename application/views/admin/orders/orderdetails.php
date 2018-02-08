@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Detail Pemesanan</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -100,7 +100,7 @@
                                                 </td>
                                                 <td>
                                                     <strong> <?php echo $this->lang->line("Delivery Details : ");?></strong><br />
-                                                    <strong>  <?php echo $this->lang->line("Contact : ");?><?php echo $order->user_fullname ; ?>, <br/> Phone : <?php echo $order->user_phone; ?></strong><br />
+                                                    <strong>  <?php echo $this->lang->line("Contact : ");?><?php echo $order->receiver_name ; ?>, <br/> No Hp: <?php echo $order->receiver_mobile; ?></strong><br />
                                         <strong>  <?php echo $this->lang->line("Address :");?></strong>
                                         <address>
                                             <?php echo $order->socity_name; ?><br />
@@ -116,7 +116,7 @@
                                 <tr>
                                     <th> <?php echo $this->lang->line("Product Name");?></th>
                                     <th> <?php echo $this->lang->line("Qty");?></th>
-                                    <th> <?php echo $this->lang->line("Total Price");?> <?php echo $this->config->item("currency");?></th>
+                                    <th> <?php echo $this->lang->line("Total Price");?> </th>
                                 </tr>
                                 <?php
                                 $total_price = 0;
@@ -124,14 +124,15 @@
                                     ?>
                                     <tr>
                                         <td><?php echo $items->product_name; ?><br />
-                                        <?php echo $items->unit_value." ".$items->unit. " (".$this->config->item("currency")." $items->price ) "; ?>
+                                        <?php echo $items->unit_value." ".$items->unit.  "(". "Rp. ".number_format($items->price, 0, ',', '.') .")" ; ?>
                                         </td>
                                         <td>
                                             <?php echo $items->qty ; ?>
                                         </td>
                                         <td>
-                                            <?php echo  $items->qty * $items->price;
-                                            $total_price = $total_price + ($items->qty * $items->price);
+                                            <?php $total_price = ($items->qty * $items->price);
+                                            echo  "Rp. ".number_format($total_price, 0, ',', '.');
+
                                              ?>
                                         </td>
                                     </tr>
@@ -141,7 +142,7 @@
                                 <tr>
                                     <td colspan="2"><strong class="pull-right"> <?php echo $this->lang->line("Total :");?></strong></td>
                                     <td >
-                                        <strong class=""><?php echo $this->config->item("currency");?> <?php echo $total_price; ?>  </strong>
+                                        <strong class=""><?php echo "Rp. ".number_format($total_price, 0, ',', '.'); ?>  </strong>
                                     </td>
                                 </tr>
                                 <tr>
@@ -153,7 +154,7 @@
                                 <tr>
                                     <td colspan="2"><strong class="pull-right">Total Pembelian :</strong></td>
                                     <td >
-                                        <strong class=""><?php echo $this->config->item("currency");?> <?php echo $net = $total_price + $order->delivery_charge; ?></strong>
+                                        <strong class=""><?php $net = $total_price + $order->delivery_charge; echo "Rp. ".number_format($net, 0, ',', '.'); ?></strong>
                                     </td>
                                 </tr>
                                 </tbody>

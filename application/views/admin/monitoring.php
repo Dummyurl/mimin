@@ -3,23 +3,28 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>Admin | Monitoring</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/plugins/daterangepicker/daterangepicker-bs3.css"); ?>">
+    <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/plugins/datepicker/datepicker3.css"); ?>">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/bootstrap/css/bootstrap.min.css"); ?>" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.dataTables.min.css" />
+    <!-- DataTables -->
+    <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/plugins/datatables/dataTables.bootstrap.css"); ?>">
     <!-- Theme style -->
-    <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/dist/css/AdminLTE.min.css
+    <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/dist/css/AdminLTE.css
     "); ?>">
+
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="<?php echo base_url($this->config->item("theme_admin")."/dist/css/skins/_all-skins.min.css"); ?>">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,12 +45,33 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            <?php echo $this->lang->line('dashboard')?>
+            <?php echo $this->lang->line('Monitoring')?>
             <small><?php echo $this->lang->line("Control panel");?></small>
           </h1>
+                    <form action="" method="post">
+                    <div class="form-group">
+                        <div class="input-group">
+                        <input type="text" name="datepicker" class="btn btn-default" placeholder="--Pilih--" value= "<?php echo $datepicker; ?>"/>
+                        <select class='btn btn-default' id='namasales' name="id_sales">
+                        <option value='0'>--Pilih Sales--</option>
+                        <?php
+                        foreach ($namas as $nama) {
+                            if ($nama->user_id == $id_sales) {
+                                echo "<option selected=selected value='$nama->user_id'>$nama->user_fullname</option>";
+                            }else{
+                                echo "<option value='$nama->user_id'>$nama->user_fullname</option>";
+                            }
+                        } ?>
+                        </select>
+                        <input type="submit" name="filter" class="btn btn-success" value="Filter" />
+                        <a href="" class="btn btn-danger" value="Clear" />Clear</a>
+                        </div>
+                      </div>
+                    </form>
+
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> <?php echo $this->lang->line("Home");?></a></li>
-            <li class="active"><?php echo $this->lang->line('dashboard')?></li>
+            <li class="active"><?php echo $this->lang->line('Monitoring')?></li>
           </ol>
         </section>
 
@@ -58,7 +84,8 @@
                             <div class="box box-primary">
                                 <div class="box-header">
 
-                                 <head>
+
+
 <!--<meta http-equiv="refresh" content="5" >   -->
 <div id='h'><?php echo $map["js"]; ?></div>
 <div id="b"><?php echo $map['html']; ?></div>
@@ -72,11 +99,20 @@
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-
-    <!-- jQuery 2.1.4 -->
+   <!-- jQuery 2.1.4 -->
     <script src="<?php echo base_url($this->config->item("theme_admin")."/plugins/jQuery/jQuery-2.1.4.min.js"); ?>"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="<?php echo base_url($this->config->item("theme_admin")."/plugins/datepicker/bootstrap-datepicker.js"); ?>"></script>
+
+   <script type="text/javascript">
+$(function() {
+    $('input[name="datepicker"]').datepicker({
+        format: "dd-mm-yyyy",
+        autoclose:true
+    });
+});
+</script>
+    <!-- jQuery 2.1.4 -->
     <script>
     $(document).ready(function(){
         setTimeout(function(){
@@ -92,29 +128,9 @@
 <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
 <script src="//cdn.datatables.net/buttons/1.2.1/js/buttons.html5.min.js"></script>
-    <script>
-    $(document).ready(function() {
-    $('.data_table').DataTable( {
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    } );
-} );
-    </script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-      $.widget.bridge('uibutton', $.ui.button);
-    </script>
-    <!-- Bootstrap 3.3.5 -->
-    <script src="<?php echo base_url($this->config->item("theme_admin")."/bootstrap/js/bootstrap.min.js"); ?>"></script>
 
-    <!-- AdminLTE App -->
-    <script src="<?php echo base_url($this->config->item("theme_admin")."/dist/js/app.min.js"); ?>"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="<?php echo base_url($this->config->item("theme_admin")."/dist/js/pages/dashboard.js"); ?>"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="<?php echo base_url($this->config->item("theme_admin")."/dist/js/demo.js"); ?>"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+
 
   </body>
 </html>

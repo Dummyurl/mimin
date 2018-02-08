@@ -58,7 +58,9 @@
                             <div class="box box-primary">
                                 <div class="box-header">
                                     <h3 class="box-title"><?php echo $this->lang->line("App Registers");?></h3>
-
+                                 <div class="pull-right">
+                                    <a href="addusers" class="btn btn-primary">Tambah Sales</a>
+                                    </div>
                                 </div><!-- /.box-header -->
 
           <div class="box-body table-responsive">
@@ -69,9 +71,9 @@
                     <th><?php echo $this->lang->line("Name");?></th>
                     <th><?php echo $this->lang->line("Phone");?>  </th>
                     <th><?php echo $this->lang->line("User Email");?>
-                    <th><?php echo $this->lang->line("Total Orders");?></th>
-                    <th><?php echo $this->lang->line("Total Amount");?></th>
+                    <th><?php echo $this->lang->line("Photo");?></th>
                     <th><?php echo $this->lang->line("Status");?></th>
+                    <th><?php echo $this->lang->line("Password");?></th>
                     <th class="text-center" style="width: 100px;"><?php echo $this->lang->line("Action");?></th>
 
                 </tr>
@@ -89,9 +91,13 @@
                     <td><?php echo $user->user_fullname; ?></td>
                     <td><?php echo $user->user_phone; ?></td>
                     <td><?php echo $user->user_email; ?></td>
-                    <td><?php echo $user->total_orders; ?></td>
-                    <td><?php echo (($user->total_amount*100)/100); ?></td>
+                    <td><a href="<?php echo $this->config->item('base_url').'uploads/profile/'.$user->user_image; ?>"target="_blank"><?php if($user->user_image!=""){ ?><div class="cat-img" style="width: 80px; height: 100px;"><img width="100%" height="100%" src="<?php echo $this->config->item('base_url').'uploads/profile/'.$user->user_image; ?>" /></div> <?php } ?></td>
+
                     <td><?php if($user->status == "1"){ ?><span class="label label-success"><?php echo $this->lang->line("Active");?></span><?php } else { ?><span class="label label-danger"><?php echo $this->lang->line("Deactive");?></span><?php } ?></td>
+                    <td class="text-center"><div class="btn">
+                    <?php echo anchor('admin/edit_password/'.$user->user_id, '<i class="fa fa-eye"></i>', array("class"=>"btn btn-info")); ?>
+                     </div>
+                    </td>
                     <td class="text-center"><div class="btn-group">
                     <?php echo anchor('admin/edit_users/'.$user->user_id, '<i class="fa fa-edit"></i>', array("class"=>"btn btn-success")); ?>
                     <?php echo anchor('admin/delete_users/'.$user->user_id, '<i class="fa fa-trash"></i>', array("class"=>"btn btn-danger", "onclick"=>"return confirm('Are you sure delete?')")); ?>
