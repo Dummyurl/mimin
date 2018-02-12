@@ -1035,7 +1035,7 @@ function edit_products($prod_id){
                      "product_name"=>$this->input->post("prod_title"),
                     "category_id"=>$this->input->post("parent"),
                      "product_description"=>$this->input->post("product_description"),
-                    "in_stock"=>$this->input->post("prod_status"),
+                    "in_stock"=>$this->input->post("in_stock"),
                     "price"=>$this->input->post("price"),
                     "unit_value"=>$this->input->post("qty"),
                     "unit"=>$this->input->post("unit")

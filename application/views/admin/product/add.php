@@ -100,7 +100,7 @@
 
                                                    // foreach($data as $d){
                                                     ?>
-                                                    <option value="<?php echo $d->id; ?>" <?php if($d->parent == "0" && $d->leval == "0" && $bool){echo "disabled";} ?> <?php if(isset($_REQUEST["parent"]) && $_REQUEST["parent"]==$d->id){echo "selected"; } ?> ><?php for($i=0; $i<$d->leval; $i++){ echo "_"; } echo $d->title; ?></option>
+                                                    <option value="<?php echo $d->id; ?>" <?php if($d->parent == "0" && $d->leval == "0" && $bool){echo "disabled";} ?> <?php if(isset($_REQUEST["parent"]) && $_REQUEST["parent"]==$d->id){echo "selected"; } ?> ><?php for($i=0; $i<$d->leval; $i++){ echo ""; } echo $d->title; ?></option>
 
                                                      <?php } ?>
                                             </select>
@@ -114,20 +114,9 @@
                                             <label><?php echo $this->lang->line("Product Image:");?> </label>
                                             <input type="file" name="prod_img" />
                                         </div>
-                                        <div class="form-group">
-                                            <div class="radio-inline">
-                                                <label>
-                                                    <input type="radio" name="in_stock" id="optionsRadios1" value="1" checked/>
-                                                    <?php echo $this->lang->line("In Stock");?>
-                                                </label>
-                                            </div>
-                                            <div class="radio-inline">
-                                                <label>
-                                                    <input type="radio" name="in_stock" id="optionsRadios2" value="0"/>
-                                                    <?php echo $this->lang->line("Out of stock");?>
-                                                </label>
-                                            </div>
-                                            <p class="help-block"><?php echo $this->lang->line("Product Status.");?></p>
+                                          <div class="form-group">
+                                            <label class=""><?php echo $this->lang->line("Stock");?> <span class="text-danger">*</span></label>
+                                            <input type="text" name="in_stock" class="form-control" placeholder="Stock"/>
                                         </div>
 
 
